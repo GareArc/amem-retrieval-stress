@@ -1,0 +1,3 @@
+[submodule "A-mem-sys"]
+	path = A-mem-sys
+	url = https://github.com/WujiangXu/A-mem-sys
