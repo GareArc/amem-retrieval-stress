@@ -1,5 +1,5 @@
 diff --git a/agentic_memory/llm_controller.py b/agentic_memory/llm_controller.py
-index 3acf95d..123954f 100644
+index 3acf95d..9c5c047 100644
 --- a/agentic_memory/llm_controller.py
 +++ b/agentic_memory/llm_controller.py
 @@ -1,9 +1,34 @@
@@ -397,7 +397,7 @@ index 3acf95d..123954f 100644
              )
              return response.choices[0].message.content
          except Exception as e:
-@@ -211,19 +417,167 @@ class OpenRouterController(BaseLLMController):
+@@ -211,19 +417,177 @@ class OpenRouterController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -484,6 +484,16 @@ index 3acf95d..123954f 100644
 +                choice = response_data["choices"][0]
 +                content = choice["message"]["content"]
 +                usage = response_data.get("usage", {})
++
++                # Strip markdown code blocks if present (DeepSeek often wraps JSON)
++                import re
++
++                markdown_match = re.search(
++                    r"```(?:json)?\s*(\{.*?\})\s*```", content, re.DOTALL
++                )
++                if markdown_match:
++                    content = markdown_match.group(1).strip()
++                    logger.debug("Stripped markdown code block from response")
 +
 +                logger.info(f"✅ SUCCESS in {elapsed:.2f}s")
 +                logger.info(
@@ -573,7 +583,7 @@ index 3acf95d..123954f 100644
          elif backend == "ollama":
              self.llm = OllamaController(model)
          elif backend == "sglang":
-@@ -231,7 +585,11 @@ class LLMController:
+@@ -231,7 +595,11 @@ class LLMController:
          elif backend == "openrouter":
              self.llm = OpenRouterController(model, api_key)
          else:

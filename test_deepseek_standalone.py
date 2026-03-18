@@ -106,6 +106,16 @@ class StandaloneDeepSeekController:
                 content = choice["message"]["content"]
                 usage = response_data.get("usage", {})
 
+                # Strip markdown code blocks if present (DeepSeek often wraps JSON)
+                import re
+
+                markdown_match = re.search(
+                    r"```(?:json)?\s*(\{.*?\})\s*```", content, re.DOTALL
+                )
+                if markdown_match:
+                    content = markdown_match.group(1).strip()
+                    print("🔧 Stripped markdown code block from response")
+
                 print(f"\n✅ SUCCESS in {elapsed:.2f}s")
                 print(
                     f"📊 Tokens: prompt={usage.get('prompt_tokens', 'N/A')}, "
