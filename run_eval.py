@@ -97,6 +97,11 @@ def main() -> None:
         default=5,
         help="Number of results to retrieve per query (default: 5)",
     )
+    parser.add_argument(
+        "--skip-llm-analysis",
+        action="store_true",
+        help="Skip LLM-based metadata generation, use pre-defined metadata instead (faster, no API calls)",
+    )
 
     # ── Test selection ────────────────────────────────────────────────
     parser.add_argument(
@@ -181,6 +186,7 @@ def main() -> None:
         sglang_port=args.sglang_port,
         verbose=args.verbose,
         workers=args.workers,
+        skip_llm_analysis=args.skip_llm_analysis,
     )
 
     if single_case is not None:

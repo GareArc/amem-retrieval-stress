@@ -153,7 +153,54 @@ def _case_passed(metrics: SearchMetrics) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# Module-level runner (picklable for ProcessPoolExecutor)
+# Helper: Generate simple metadata from content
+# ---------------------------------------------------------------------------
+
+
+def _generate_simple_metadata(content: str, role: str = "unknown") -> dict[str, Any]:
+    """Generate simple pre-defined metadata without LLM calls.
+
+    Extracts basic keywords from content and assigns default context/tags.
+    """
+    import re
+
+    # Extract potential keywords (words 4+ chars, capitalized or all-caps)
+    words = re.findall(r"\b[A-Z][a-z]{3,}|\b[A-Z]{2,}\b", content)
+    keywords = list(dict.fromkeys(words[:5]))  # Top 5 unique
+
+    # Simple context based on role
+    if role == "target":
+        context = "Primary information relevant to query"
+    elif role == "distractor":
+        context = "Related but not relevant information"
+    elif role == "noise":
+        context = "General background information"
+    else:
+        context = "General information"
+
+    # Basic tags from common domains
+    tags = ["information"]
+    if any(
+        word in content.lower() for word in ["company", "business", "revenue", "market"]
+    ):
+        tags.append("business")
+    if any(
+        word in content.lower()
+        for word in ["technology", "software", "ai", "algorithm"]
+    ):
+        tags.append("technology")
+    if any(word in content.lower() for word in ["research", "study", "paper"]):
+        tags.append("research")
+
+    return {
+        "keywords": keywords if keywords else ["content"],
+        "context": context,
+        "tags": tags,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Isolated case runner (module-level for ProcessPoolExecutor)
 # ---------------------------------------------------------------------------
 
 
@@ -193,13 +240,28 @@ def _run_case_isolated(config: dict[str, Any], case: dict[str, Any]) -> CaseResu
         )
 
         id_map: dict[str, str] = {}
+        skip_llm = config.get("skip_llm_analysis", False)
+
         for mem in case["memories"]:
             kwargs: dict[str, Any] = {}
             if "timestamp" in mem:
                 kwargs["time"] = mem["timestamp"]
+
+            # Use existing metadata from fixture if present
             for key in ("keywords", "context", "tags"):
                 if key in mem:
                     kwargs[key] = mem[key]
+
+            # If skip_llm_analysis and no metadata provided, generate simple defaults
+            if skip_llm and not all(
+                k in kwargs for k in ("keywords", "context", "tags")
+            ):
+                simple_meta = _generate_simple_metadata(
+                    mem["content"], mem.get("role", "unknown")
+                )
+                for k, v in simple_meta.items():
+                    if k not in kwargs:
+                        kwargs[k] = v
 
             real_id = system.add_note(mem["content"], **kwargs)
             id_map[mem["id"]] = real_id
@@ -214,7 +276,12 @@ def _run_case_isolated(config: dict[str, Any], case: dict[str, Any]) -> CaseResu
             )
 
         for noise in NOISE_MEMORIES:
-            real_id = system.add_note(noise["content"])
+            if skip_llm:
+                # Generate simple metadata for noise memories too
+                noise_meta = _generate_simple_metadata(noise["content"], "noise")
+                real_id = system.add_note(noise["content"], **noise_meta)
+            else:
+                real_id = system.add_note(noise["content"])
             id_map[noise["id"]] = real_id
 
         search_results = system.search(case["query"], k=config["k"])
@@ -251,6 +318,7 @@ class EvaluationRunner:
         sglang_port: int = 30000,
         verbose: bool = False,
         workers: int = 1,
+        skip_llm_analysis: bool = False,
     ) -> None:
         self.provider = provider
         self.model = model
@@ -261,6 +329,7 @@ class EvaluationRunner:
         self.sglang_port = sglang_port
         self.verbose = verbose
         self.workers = max(1, workers)
+        self.skip_llm_analysis = skip_llm_analysis
 
     # ── Single case ───────────────────────────────────────────────────
 
@@ -293,6 +362,8 @@ class EvaluationRunner:
         print(f"  A-MEM RETRIEVAL EVALUATION")
         print(f"  Provider: {self.provider} | Model: {self.model}")
         print(f"  Embedding: {self.embedding_model} | k={self.k}")
+        if self.skip_llm_analysis:
+            print(f"  Mode: SKIP LLM ANALYSIS (using pre-defined metadata)")
         print(f"  Test cases: {total} | Workers: {self.workers}")
         print(f"{'=' * 70}\n")
 
@@ -326,6 +397,7 @@ class EvaluationRunner:
             "api_key": self.api_key,
             "sglang_host": self.sglang_host,
             "sglang_port": self.sglang_port,
+            "skip_llm_analysis": self.skip_llm_analysis,
         }
 
     def _run_parallel(
