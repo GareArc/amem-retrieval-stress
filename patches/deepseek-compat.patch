@@ -1,5 +1,5 @@
 diff --git a/agentic_memory/llm_controller.py b/agentic_memory/llm_controller.py
-index 3acf95d..f5085cb 100644
+index 3acf95d..eaac213 100644
 --- a/agentic_memory/llm_controller.py
 +++ b/agentic_memory/llm_controller.py
 @@ -1,9 +1,32 @@
@@ -35,7 +35,7 @@ index 3acf95d..f5085cb 100644
  
  class BaseLLMController(ABC):
      @abstractmethod
-@@ -36,59 +59,197 @@ class BaseLLMController(ABC):
+@@ -36,59 +59,219 @@ class BaseLLMController(ABC):
          if "properties" in schema:
              for prop_name, prop_schema in schema["properties"].items():
                  result[prop_name] = self._generate_empty_value(
@@ -48,7 +48,13 @@ index 3acf95d..f5085cb 100644
  
 +
  class OpenAIController(BaseLLMController):
-     def __init__(self, model: str = "gpt-4", api_key: Optional[str] = None):
+-    def __init__(self, model: str = "gpt-4", api_key: Optional[str] = None):
++    def __init__(
++        self,
++        model: str = "gpt-4",
++        api_key: Optional[str] = None,
++        force_ipv4: bool = False,
++    ):
          try:
              from openai import OpenAI
 +
@@ -64,15 +70,32 @@ index 3acf95d..f5085cb 100644
 +                )
 +
 +            import httpx
++            import socket
 +
 +            base_url = os.getenv("OPENAI_BASE_URL")
 +
-+            self.client = OpenAI(
-+                api_key=api_key,
-+                base_url=base_url,
-+                timeout=httpx.Timeout(600.0, connect=60.0, read=600.0, write=60.0),
-+                max_retries=0,
-+            )
++            if force_ipv4:
++                logger.info("🔧 Forcing IPv4 via httpx local_address")
++                http_client = httpx.Client(
++                    timeout=httpx.Timeout(600.0, connect=60.0, read=600.0, write=60.0),
++                    limits=httpx.Limits(
++                        max_connections=100, max_keepalive_connections=20
++                    ),
++                    transport=httpx.HTTPTransport(local_address="0.0.0.0"),
++                )
++                self.client = OpenAI(
++                    api_key=api_key,
++                    base_url=base_url,
++                    http_client=http_client,
++                    max_retries=0,
++                )
++            else:
++                self.client = OpenAI(
++                    api_key=api_key,
++                    base_url=base_url,
++                    timeout=httpx.Timeout(600.0, connect=60.0, read=600.0, write=60.0),
++                    max_retries=0,
++                )
 +
          except ImportError:
 -            raise ImportError("OpenAI package not found. Install it with: pip install openai")
@@ -249,7 +272,7 @@ index 3acf95d..f5085cb 100644
                  ],
                  response_format=response_format,
              )
-@@ -97,6 +258,7 @@ class OllamaController(BaseLLMController):
+@@ -97,6 +280,7 @@ class OllamaController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -257,7 +280,7 @@ index 3acf95d..f5085cb 100644
  class SGLangController(BaseLLMController):
      """LLM controller for SGLang server using HTTP requests.
  
-@@ -108,13 +270,21 @@ class SGLangController(BaseLLMController):
+@@ -108,13 +292,21 @@ class SGLangController(BaseLLMController):
          sglang_host: SGLang server host URL (default: "http://localhost")
          sglang_port: SGLang server port (default: 30000)
      """
@@ -281,7 +304,7 @@ index 3acf95d..f5085cb 100644
          try:
              json_schema = response_format.get("json_schema", {}).get("schema", {})
              json_schema_str = json.dumps(json_schema)
-@@ -124,15 +294,15 @@ class SGLangController(BaseLLMController):
+@@ -124,15 +316,15 @@ class SGLangController(BaseLLMController):
                  "sampling_params": {
                      "temperature": temperature,
                      "max_new_tokens": 1000,
@@ -300,7 +323,7 @@ index 3acf95d..f5085cb 100644
              )
  
              if response.status_code == 200:
-@@ -140,7 +310,9 @@ class SGLangController(BaseLLMController):
+@@ -140,7 +332,9 @@ class SGLangController(BaseLLMController):
                  generated_text = result.get("text", "")
                  return generated_text
              else:
@@ -311,7 +334,7 @@ index 3acf95d..f5085cb 100644
                  raise Exception(f"SGLang server error: {response.status_code}")
  
          except Exception as e:
-@@ -148,6 +320,7 @@ class SGLangController(BaseLLMController):
+@@ -148,6 +342,7 @@ class SGLangController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -319,7 +342,7 @@ index 3acf95d..f5085cb 100644
  class OpenRouterController(BaseLLMController):
      """LLM controller for OpenRouter API using litellm.
  
-@@ -168,7 +341,9 @@ class OpenRouterController(BaseLLMController):
+@@ -168,7 +363,9 @@ class OpenRouterController(BaseLLMController):
          >>> controller = OpenRouterController("google/gemini-2.0-flash-001:free")
      """
  
@@ -330,7 +353,7 @@ index 3acf95d..f5085cb 100644
          # For litellm, prepend "openrouter/" if not already present
          if not model.startswith("openrouter/"):
              self.model = f"openrouter/{model}"
-@@ -176,15 +351,19 @@ class OpenRouterController(BaseLLMController):
+@@ -176,15 +373,19 @@ class OpenRouterController(BaseLLMController):
              self.model = model
  
          if api_key is None:
@@ -354,7 +377,7 @@ index 3acf95d..f5085cb 100644
          """Get completion from OpenRouter API.
  
          Args:
-@@ -199,11 +378,14 @@ class OpenRouterController(BaseLLMController):
+@@ -199,11 +400,14 @@ class OpenRouterController(BaseLLMController):
              response = completion(
                  model=self.model,
                  messages=[
@@ -372,7 +395,7 @@ index 3acf95d..f5085cb 100644
              )
              return response.choices[0].message.content
          except Exception as e:
-@@ -211,19 +393,38 @@ class OpenRouterController(BaseLLMController):
+@@ -211,19 +415,38 @@ class OpenRouterController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -381,8 +404,8 @@ index 3acf95d..f5085cb 100644
 +    """OpenAI-compatible controller with IPv4-only workaround for DeepSeek's broken IPv6 endpoint."""
 +
 +    def __init__(self, model: str = "deepseek-chat", api_key: Optional[str] = None):
-+        _enable_ipv4_only()
-+        super().__init__(model, api_key)
++        logger.info("🔧 Using DeepSeekController with IPv4-only transport")
++        super().__init__(model, api_key, force_ipv4=True)
 +
 +
  class LLMController:
@@ -419,7 +442,7 @@ index 3acf95d..f5085cb 100644
          elif backend == "ollama":
              self.llm = OllamaController(model)
          elif backend == "sglang":
-@@ -231,7 +432,11 @@ class LLMController:
+@@ -231,7 +454,11 @@ class LLMController:
          elif backend == "openrouter":
              self.llm = OpenRouterController(model, api_key)
          else:
