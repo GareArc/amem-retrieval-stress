@@ -25,3 +25,5 @@ build/
 
 # Eval results (generated, not tracked)
 results/
+eval_results.json
+eval_results.md
