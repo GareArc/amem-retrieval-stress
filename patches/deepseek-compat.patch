@@ -38,12 +38,12 @@ index 3acf95d..61c53f5 100644
 +                    "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
 +                )
 +
-+            # Support custom base URL (e.g., DeepSeek) and increase timeout
++            # Support custom base URL (e.g., DeepSeek) and unlimited timeout
 +            base_url = os.getenv("OPENAI_BASE_URL")
 +            self.client = OpenAI(
 +                api_key=api_key,
 +                base_url=base_url,
-+                timeout=120.0,  # Increased timeout for slower APIs like DeepSeek
++                timeout=None,  # No timeout - wait indefinitely for slower APIs
 +            )
          except ImportError:
 -            raise ImportError("OpenAI package not found. Install it with: pip install openai")
