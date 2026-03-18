@@ -1,5 +1,5 @@
 diff --git a/agentic_memory/llm_controller.py b/agentic_memory/llm_controller.py
-index 3acf95d..fd1f9d6 100644
+index 3acf95d..1acbcd2 100644
 --- a/agentic_memory/llm_controller.py
 +++ b/agentic_memory/llm_controller.py
 @@ -4,6 +4,11 @@ import json
@@ -48,7 +48,7 @@ index 3acf95d..fd1f9d6 100644
 +            self.client = OpenAI(
 +                api_key=api_key,
 +                base_url=base_url,
-+                timeout=httpx.Timeout(600.0, connect=10.0),
++                timeout=httpx.Timeout(600.0, connect=60.0, read=600.0, write=60.0),
 +                max_retries=0,
 +            )
          except ImportError:
@@ -99,7 +99,7 @@ index 3acf95d..fd1f9d6 100644
 +            logger.info(f"{'=' * 80}")
 +            logger.info(f"🤖 LLM CALL: {self.model}")
 +            logger.info(
-+                f"⚙️  Config: timeout=600s, max_retries=0, temp={kwargs.get('temperature', 1.0)}"
++                f"⚙️  Config: timeout=(connect=60s, read=600s), max_retries=0, temp={kwargs.get('temperature', 1.0)}"
 +            )
 +            logger.info(
 +                f"📤 Request format: {kwargs['response_format'].get('type', 'unknown')}"
