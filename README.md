@@ -26,7 +26,7 @@ git apply ../patches/deepseek-compat.patch     # Apply updated patch
 cd ..
 ```
 
-Set your LLM API key (needed for A-mem's memory analysis):
+**Optional**: Set LLM API key (only needed if NOT using `--skip-llm-analysis`):
 
 ```bash
 export OPENAI_API_KEY="sk-..."
@@ -36,11 +36,14 @@ export OPENAI_API_KEY="sk-..."
 ## Quick Start
 
 ```bash
-# Run all 45 tests
+# Fast mode (RECOMMENDED) - uses pre-defined metadata, no LLM calls
+python run_eval.py --skip-llm-analysis
+
+# Full mode - generates metadata via LLM (slower, requires API)
 python run_eval.py
 
-# Run with verbose per-case metrics
-python run_eval.py -v
+# Verbose output
+python run_eval.py --skip-llm-analysis -v
 ```
 
 ## Selecting Tests
@@ -83,10 +86,13 @@ python run_eval.py --provider sglang --model meta-llama/Llama-3.1-8B-Instruct \
 
 ```bash
 # Fewer results (stricter)
-python run_eval.py --k 3
+python run_eval.py --skip-llm-analysis --k 3
 
 # Different embedding model
-python run_eval.py --embedding-model all-mpnet-base-v2
+python run_eval.py --skip-llm-analysis --embedding-model all-mpnet-base-v2
+
+# Parallel execution (faster for full suite)
+python run_eval.py --skip-llm-analysis --workers 4
 ```
 
 ## Output
@@ -98,6 +104,34 @@ python run_eval.py -o results/run_001.json
 ```
 
 The report compares `search()` (pure vector) vs `search_agentic()` (vector + link expansion) across all cases.
+
+## Performance Optimization
+
+### Fast Testing Mode (Recommended) ⚡
+
+**Use `--skip-llm-analysis` for instant testing:**
+
+```bash
+python run_eval.py --skip-llm-analysis
+```
+
+**Benefits:**
+- ✅ **No API calls** - No timeouts, no rate limits, no costs
+- ✅ **10-100x faster** - Seconds instead of hours  
+- ✅ **Deterministic** - Reproducible results every run
+- ✅ **High quality** - Pre-defined metadata for all 208 memories
+- ✅ **Tests retrieval** - Focuses on vector search + link expansion
+
+**How it works:**
+- Uses hand-tuned keywords, context, and tags for each memory
+- Domain-aware classifications (business, technology, agriculture, etc.)
+- Role-specific contexts (targets vs distractors)
+- Skips LLM-based metadata generation entirely
+
+**When to use full LLM mode:**
+- Testing end-to-end agentic memory behavior
+- Evaluating LLM-generated metadata quality
+- Benchmarking with different providers/models
 
 ## Test Tiers
 
@@ -130,12 +164,13 @@ A case **passes** if all targets are retrieved AND no distractors contaminate re
 
 If you see "Request timed out" errors during tests:
 
-1. **Patch applied?** The DeepSeek compatibility patch increases timeout to 120s and adds `OPENAI_BASE_URL` support. Re-apply if needed (see Setup).
-2. **Slow API?** DeepSeek can be slower during peak hours. Consider using local Ollama instead:
+1. **Use fast mode (RECOMMENDED)**: `python run_eval.py --skip-llm-analysis`
+2. **Patch applied?** The DeepSeek compatibility patch increases timeout to 120s and adds `OPENAI_BASE_URL` support. Re-apply if needed (see Setup).
+3. **Slow API?** DeepSeek can be slower during peak hours. Consider using local Ollama instead:
    ```bash
    python run_eval.py --provider ollama --model llama3
    ```
-3. **Network issues?** Check API connectivity or try a different provider (OpenRouter, OpenAI).
+4. **Network issues?** Check API connectivity or try a different provider (OpenRouter, OpenAI).
 
 ### Patch Updates
 
