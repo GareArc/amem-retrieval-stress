@@ -1,5 +1,5 @@
 diff --git a/agentic_memory/llm_controller.py b/agentic_memory/llm_controller.py
-index 3acf95d..6f99b07 100644
+index 3acf95d..b9467eb 100644
 --- a/agentic_memory/llm_controller.py
 +++ b/agentic_memory/llm_controller.py
 @@ -4,6 +4,11 @@ import json
@@ -14,7 +14,7 @@ index 3acf95d..6f99b07 100644
  
  class BaseLLMController(ABC):
      @abstractmethod
-@@ -36,59 +41,210 @@ class BaseLLMController(ABC):
+@@ -36,59 +41,207 @@ class BaseLLMController(ABC):
          if "properties" in schema:
              for prop_name, prop_schema in schema["properties"].items():
                  result[prop_name] = self._generate_empty_value(
@@ -47,24 +47,21 @@ index 3acf95d..6f99b07 100644
 +
 +            base_url = os.getenv("OPENAI_BASE_URL")
 +
-+            original_getaddrinfo = socket.getaddrinfo
++            self._original_getaddrinfo = socket.getaddrinfo
 +
 +            def getaddrinfo_ipv4_only(host, port, family=0, type=0, proto=0, flags=0):
-+                return original_getaddrinfo(
++                return self._original_getaddrinfo(
 +                    host, port, socket.AF_INET, type, proto, flags
 +                )
 +
 +            socket.getaddrinfo = getaddrinfo_ipv4_only
 +
-+            try:
-+                self.client = OpenAI(
-+                    api_key=api_key,
-+                    base_url=base_url,
-+                    timeout=httpx.Timeout(600.0, connect=60.0, read=600.0, write=60.0),
-+                    max_retries=0,
-+                )
-+            finally:
-+                socket.getaddrinfo = original_getaddrinfo
++            self.client = OpenAI(
++                api_key=api_key,
++                base_url=base_url,
++                timeout=httpx.Timeout(600.0, connect=60.0, read=600.0, write=60.0),
++                max_retries=0,
++            )
 +
          except ImportError:
 -            raise ImportError("OpenAI package not found. Install it with: pip install openai")
@@ -241,7 +238,7 @@ index 3acf95d..6f99b07 100644
                  ],
                  response_format=response_format,
              )
-@@ -97,6 +253,7 @@ class OllamaController(BaseLLMController):
+@@ -97,6 +250,7 @@ class OllamaController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -249,7 +246,7 @@ index 3acf95d..6f99b07 100644
  class SGLangController(BaseLLMController):
      """LLM controller for SGLang server using HTTP requests.
  
-@@ -108,13 +265,21 @@ class SGLangController(BaseLLMController):
+@@ -108,13 +262,21 @@ class SGLangController(BaseLLMController):
          sglang_host: SGLang server host URL (default: "http://localhost")
          sglang_port: SGLang server port (default: 30000)
      """
@@ -273,7 +270,7 @@ index 3acf95d..6f99b07 100644
          try:
              json_schema = response_format.get("json_schema", {}).get("schema", {})
              json_schema_str = json.dumps(json_schema)
-@@ -124,15 +289,15 @@ class SGLangController(BaseLLMController):
+@@ -124,15 +286,15 @@ class SGLangController(BaseLLMController):
                  "sampling_params": {
                      "temperature": temperature,
                      "max_new_tokens": 1000,
@@ -292,7 +289,7 @@ index 3acf95d..6f99b07 100644
              )
  
              if response.status_code == 200:
-@@ -140,7 +305,9 @@ class SGLangController(BaseLLMController):
+@@ -140,7 +302,9 @@ class SGLangController(BaseLLMController):
                  generated_text = result.get("text", "")
                  return generated_text
              else:
@@ -303,7 +300,7 @@ index 3acf95d..6f99b07 100644
                  raise Exception(f"SGLang server error: {response.status_code}")
  
          except Exception as e:
-@@ -148,6 +315,7 @@ class SGLangController(BaseLLMController):
+@@ -148,6 +312,7 @@ class SGLangController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -311,7 +308,7 @@ index 3acf95d..6f99b07 100644
  class OpenRouterController(BaseLLMController):
      """LLM controller for OpenRouter API using litellm.
  
-@@ -168,7 +336,9 @@ class OpenRouterController(BaseLLMController):
+@@ -168,7 +333,9 @@ class OpenRouterController(BaseLLMController):
          >>> controller = OpenRouterController("google/gemini-2.0-flash-001:free")
      """
  
@@ -322,7 +319,7 @@ index 3acf95d..6f99b07 100644
          # For litellm, prepend "openrouter/" if not already present
          if not model.startswith("openrouter/"):
              self.model = f"openrouter/{model}"
-@@ -176,15 +346,19 @@ class OpenRouterController(BaseLLMController):
+@@ -176,15 +343,19 @@ class OpenRouterController(BaseLLMController):
              self.model = model
  
          if api_key is None:
@@ -346,7 +343,7 @@ index 3acf95d..6f99b07 100644
          """Get completion from OpenRouter API.
  
          Args:
-@@ -199,11 +373,14 @@ class OpenRouterController(BaseLLMController):
+@@ -199,11 +370,14 @@ class OpenRouterController(BaseLLMController):
              response = completion(
                  model=self.model,
                  messages=[
@@ -364,7 +361,7 @@ index 3acf95d..6f99b07 100644
              )
              return response.choices[0].message.content
          except Exception as e:
-@@ -211,17 +388,21 @@ class OpenRouterController(BaseLLMController):
+@@ -211,17 +385,21 @@ class OpenRouterController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -392,7 +389,7 @@ index 3acf95d..6f99b07 100644
          if backend == "openai":
              self.llm = OpenAIController(model, api_key)
          elif backend == "ollama":
-@@ -231,7 +412,11 @@ class LLMController:
+@@ -231,7 +409,11 @@ class LLMController:
          elif backend == "openrouter":
              self.llm = OpenRouterController(model, api_key)
          else:
