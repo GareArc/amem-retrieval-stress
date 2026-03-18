@@ -17,6 +17,15 @@ pip install -e A-mem-sys/
 python -c "import nltk; nltk.download('punkt_tab', quiet=True)"
 ```
 
+**If patch is already applied** (syncing on another machine):
+
+```bash
+cd A-mem-sys
+git checkout agentic_memory/llm_controller.py  # Revert old patch
+git apply ../patches/deepseek-compat.patch     # Apply updated patch
+cd ..
+```
+
 Set your LLM API key (needed for A-mem's memory analysis):
 
 ```bash
@@ -101,7 +110,7 @@ The report compares `search()` (pure vector) vs `search_agentic()` (vector + lin
 ### Design Principles
 
 - **No keyword leakage**: queries never share discriminating words with target memories. Connection requires understanding, not keyword matching.
-- **Controlled distractors**: each case includes memories that share topic/vocabulary with the target — only the tested dimension (ambiguity/time/inference) distinguishes them.
+- **Strong distractors**: each case includes 3-4 distractor memories that share topic/vocabulary with targets — only the tested dimension (ambiguity/time/inference) distinguishes them. Total of 135 distractors across all cases.
 - **Both search methods**: every case runs `search()` and `search_agentic()` to isolate whether A-mem's link expansion helps.
 
 ## Metrics (per case)
@@ -115,12 +124,39 @@ The report compares `search()` (pure vector) vs `search_agentic()` (vector + lin
 
 A case **passes** if all targets are retrieved AND no distractors contaminate results.
 
+## Troubleshooting
+
+### Request Timeout Errors
+
+If you see "Request timed out" errors during tests:
+
+1. **Patch applied?** The DeepSeek compatibility patch increases timeout to 120s and adds `OPENAI_BASE_URL` support. Re-apply if needed (see Setup).
+2. **Slow API?** DeepSeek can be slower during peak hours. Consider using local Ollama instead:
+   ```bash
+   python run_eval.py --provider ollama --model llama3
+   ```
+3. **Network issues?** Check API connectivity or try a different provider (OpenRouter, OpenAI).
+
+### Patch Updates
+
+The `patches/deepseek-compat.patch` file may be updated occasionally. To sync:
+
+```bash
+git pull origin main                                # Get latest patch
+cd A-mem-sys
+git checkout agentic_memory/llm_controller.py      # Revert old changes
+git apply ../patches/deepseek-compat.patch         # Apply updated patch
+cd ..
+```
+
 ## Project Structure
 
 ```
 eval/
-  fixtures.py   # 45 test cases with ground truth
+  fixtures.py   # 45 test cases with 135 total distractors
   runner.py     # EvaluationRunner pipeline
 run_eval.py     # CLI entry point
-A-mem-sys/      # Target system under test
+A-mem-sys/      # Target system under test (submodule)
+patches/        # Compatibility patches for A-mem-sys
+  deepseek-compat.patch  # Adds timeout + base_url support
 ```
