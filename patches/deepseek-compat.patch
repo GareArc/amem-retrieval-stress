@@ -1,5 +1,5 @@
 diff --git a/agentic_memory/llm_controller.py b/agentic_memory/llm_controller.py
-index 3acf95d..eaac213 100644
+index 3acf95d..5141fea 100644
 --- a/agentic_memory/llm_controller.py
 +++ b/agentic_memory/llm_controller.py
 @@ -1,9 +1,32 @@
@@ -395,7 +395,7 @@ index 3acf95d..eaac213 100644
              )
              return response.choices[0].message.content
          except Exception as e:
-@@ -211,19 +415,38 @@ class OpenRouterController(BaseLLMController):
+@@ -211,19 +415,39 @@ class OpenRouterController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -404,6 +404,7 @@ index 3acf95d..eaac213 100644
 +    """OpenAI-compatible controller with IPv4-only workaround for DeepSeek's broken IPv6 endpoint."""
 +
 +    def __init__(self, model: str = "deepseek-chat", api_key: Optional[str] = None):
++        _enable_ipv4_only()
 +        logger.info("🔧 Using DeepSeekController with IPv4-only transport")
 +        super().__init__(model, api_key, force_ipv4=True)
 +
@@ -442,7 +443,7 @@ index 3acf95d..eaac213 100644
          elif backend == "ollama":
              self.llm = OllamaController(model)
          elif backend == "sglang":
-@@ -231,7 +454,11 @@ class LLMController:
+@@ -231,7 +455,11 @@ class LLMController:
          elif backend == "openrouter":
              self.llm = OpenRouterController(model, api_key)
          else:
