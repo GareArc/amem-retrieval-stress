@@ -2,10 +2,13 @@ diff --git a/agentic_memory/llm_controller.py b/agentic_memory/llm_controller.py
 index 3acf95d..61c53f5 100644
 --- a/agentic_memory/llm_controller.py
 +++ b/agentic_memory/llm_controller.py
-@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
+@@ -5,6 +5,8 @@ from abc import ABC, abstractmethod
  from litellm import completion
  import requests
++import logging
++import time
  
++logger = logging.getLogger(__name__)
 +
  class BaseLLMController(ABC):
      @abstractmethod
@@ -83,16 +86,23 @@ index 3acf95d..61c53f5 100644
              else:
                  kwargs["max_tokens"] = max_tokens
  
--        response = self.client.chat.completions.create(**kwargs)
--        return response.choices[0].message.content
 +        try:
++            logger.info(f"🤖 Calling {self.model} (timeout: unlimited)")
++            start_time = time.time()
 +            response = self.client.chat.completions.create(**kwargs)
++            elapsed = time.time() - start_time
++            logger.info(f"✅ {self.model} responded in {elapsed:.2f}s")
 +            return response.choices[0].message.content
 +        except Exception as e:
++            elapsed = time.time() - start_time
 +            if "response_format" in str(e).lower() or "json_schema" in str(e).lower():
++                logger.warning(f"⚠️  JSON schema not supported, retrying with basic JSON mode")
 +                kwargs["response_format"] = {"type": "json_object"}
 +                response = self.client.chat.completions.create(**kwargs)
++                elapsed = time.time() - start_time
++                logger.info(f"✅ {self.model} responded in {elapsed:.2f}s (fallback mode)")
 +                return response.choices[0].message.content
++            logger.error(f"❌ {self.model} failed after {elapsed:.2f}s: {e}")
 +            raise
 +
  
