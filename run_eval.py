@@ -102,6 +102,11 @@ def main() -> None:
         action="store_true",
         help="Skip LLM-based metadata generation, use pre-defined metadata instead (faster, no API calls)",
     )
+    parser.add_argument(
+        "--skip-evolution",
+        action="store_true",
+        help="Skip memory evolution (link creation), disables LLM calls during add_note() process_memory step",
+    )
 
     # ── Test selection ────────────────────────────────────────────────
     parser.add_argument(
@@ -187,6 +192,7 @@ def main() -> None:
         verbose=args.verbose,
         workers=args.workers,
         skip_llm_analysis=args.skip_llm_analysis,
+        skip_evolution=args.skip_evolution,
     )
 
     if single_case is not None:

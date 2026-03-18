@@ -36,14 +36,17 @@ export OPENAI_API_KEY="sk-..."
 ## Quick Start
 
 ```bash
-# Fast mode (RECOMMENDED) - uses pre-defined metadata, no LLM calls
+# Fastest mode (RECOMMENDED) - skip both analysis and evolution, no LLM calls
+python run_eval.py --skip-llm-analysis --skip-evolution
+
+# Fast mode - use pre-defined metadata, but enable evolution (requires API)
 python run_eval.py --skip-llm-analysis
 
-# Full mode - generates metadata via LLM (slower, requires API)
+# Full mode - LLM-generated metadata + evolution (slowest, requires API)
 python run_eval.py
 
 # Verbose output
-python run_eval.py --skip-llm-analysis -v
+python run_eval.py --skip-llm-analysis --skip-evolution -v
 ```
 
 ## Selecting Tests
@@ -86,13 +89,16 @@ python run_eval.py --provider sglang --model meta-llama/Llama-3.1-8B-Instruct \
 
 ```bash
 # Fewer results (stricter)
-python run_eval.py --skip-llm-analysis --k 3
+python run_eval.py --skip-llm-analysis --skip-evolution --k 3
 
 # Different embedding model
-python run_eval.py --skip-llm-analysis --embedding-model all-mpnet-base-v2
+python run_eval.py --skip-llm-analysis --skip-evolution --embedding-model all-mpnet-base-v2
 
 # Parallel execution (faster for full suite)
-python run_eval.py --skip-llm-analysis --workers 4
+python run_eval.py --skip-llm-analysis --skip-evolution --workers 4
+
+# Test with evolution enabled (keeps link creation)
+python run_eval.py --skip-llm-analysis  # Note: no --skip-evolution
 ```
 
 ## Output
@@ -107,31 +113,40 @@ The report compares `search()` (pure vector) vs `search_agentic()` (vector + lin
 
 ## Performance Optimization
 
-### Fast Testing Mode (Recommended) ⚡
+### Fast Testing Modes ⚡
 
-**Use `--skip-llm-analysis` for instant testing:**
+**Three levels of LLM usage:**
 
+#### Level 1: No LLM (Fastest) - RECOMMENDED
+```bash
+python run_eval.py --skip-llm-analysis --skip-evolution
+```
+- ✅ **No API calls** - Zero LLM usage
+- ✅ **~30 seconds** for full suite
+- ✅ **Deterministic** - Same results every run
+- ✅ Tests: Pure vector search (no link expansion)
+
+#### Level 2: Partial LLM (Fast)
 ```bash
 python run_eval.py --skip-llm-analysis
 ```
+- ⚠️ **LLM calls for evolution only** - Link creation during memory loading
+- ⏱️ **~5-10 minutes** for full suite (depends on API speed)
+- ✅ Tests: Vector search + link expansion (agentic behavior)
 
-**Benefits:**
-- ✅ **No API calls** - No timeouts, no rate limits, no costs
-- ✅ **10-100x faster** - Seconds instead of hours  
-- ✅ **Deterministic** - Reproducible results every run
-- ✅ **High quality** - Pre-defined metadata for all 208 memories
-- ✅ **Tests retrieval** - Focuses on vector search + link expansion
+#### Level 3: Full LLM (Slow)
+```bash
+python run_eval.py
+```
+- ⚠️ **Full LLM usage** - Metadata generation + evolution
+- ⏱️ **~1-4 hours** for full suite
+- 📊 Tests: End-to-end with LLM-generated metadata
 
-**How it works:**
-- Uses hand-tuned keywords, context, and tags for each memory
-- Domain-aware classifications (business, technology, agriculture, etc.)
-- Role-specific contexts (targets vs distractors)
-- Skips LLM-based metadata generation entirely
+**What each flag does:**
+- `--skip-llm-analysis`: Uses pre-defined keywords/context/tags (skips `analyze_content()`)
+- `--skip-evolution`: Skips link creation (disables `process_memory()`)
 
-**When to use full LLM mode:**
-- Testing end-to-end agentic memory behavior
-- Evaluating LLM-generated metadata quality
-- Benchmarking with different providers/models
+**Recommendation:** Use Level 1 for testing retrieval logic, Level 2 for testing link expansion
 
 ## Test Tiers
 

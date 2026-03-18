@@ -239,6 +239,17 @@ def _run_case_isolated(config: dict[str, Any], case: dict[str, Any]) -> CaseResu
             sglang_port=config.get("sglang_port", 30000),
         )
 
+        # Monkey-patch process_memory to skip evolution if requested
+        skip_evolution = config.get("skip_evolution", False)
+        if skip_evolution:
+            # Replace process_memory with a no-op that just returns the note unchanged
+            original_process_memory = system.process_memory
+
+            def no_op_process_memory(note):
+                return False, note
+
+            system.process_memory = no_op_process_memory
+
         id_map: dict[str, str] = {}
         skip_llm = config.get("skip_llm_analysis", False)
 
@@ -319,6 +330,7 @@ class EvaluationRunner:
         verbose: bool = False,
         workers: int = 1,
         skip_llm_analysis: bool = False,
+        skip_evolution: bool = False,
     ) -> None:
         self.provider = provider
         self.model = model
@@ -330,6 +342,7 @@ class EvaluationRunner:
         self.verbose = verbose
         self.workers = max(1, workers)
         self.skip_llm_analysis = skip_llm_analysis
+        self.skip_evolution = skip_evolution
 
     # ── Single case ───────────────────────────────────────────────────
 
@@ -364,6 +377,8 @@ class EvaluationRunner:
         print(f"  Embedding: {self.embedding_model} | k={self.k}")
         if self.skip_llm_analysis:
             print(f"  Mode: SKIP LLM ANALYSIS (using pre-defined metadata)")
+        if self.skip_evolution:
+            print(f"  Mode: SKIP EVOLUTION (no link creation)")
         print(f"  Test cases: {total} | Workers: {self.workers}")
         print(f"{'=' * 70}\n")
 
@@ -398,6 +413,7 @@ class EvaluationRunner:
             "sglang_host": self.sglang_host,
             "sglang_port": self.sglang_port,
             "skip_llm_analysis": self.skip_llm_analysis,
+            "skip_evolution": self.skip_evolution,
         }
 
     def _run_parallel(
