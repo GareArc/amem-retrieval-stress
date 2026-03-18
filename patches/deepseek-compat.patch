@@ -1,19 +1,20 @@
 diff --git a/agentic_memory/llm_controller.py b/agentic_memory/llm_controller.py
-index 3acf95d..61c53f5 100644
+index 3acf95d..437868a 100644
 --- a/agentic_memory/llm_controller.py
 +++ b/agentic_memory/llm_controller.py
-@@ -5,6 +5,8 @@ from abc import ABC, abstractmethod
+@@ -4,6 +4,11 @@ import json
+ from abc import ABC, abstractmethod
  from litellm import completion
  import requests
 +import logging
 +import time
- 
++
 +logger = logging.getLogger(__name__)
 +
+ 
  class BaseLLMController(ABC):
      @abstractmethod
-     def get_completion(self, prompt: str) -> str:
-@@ -36,59 +37,93 @@ class BaseLLMController(ABC):
+@@ -36,59 +41,106 @@ class BaseLLMController(ABC):
          if "properties" in schema:
              for prop_name, prop_schema in schema["properties"].items():
                  result[prop_name] = self._generate_empty_value(
@@ -86,6 +87,8 @@ index 3acf95d..61c53f5 100644
              else:
                  kwargs["max_tokens"] = max_tokens
  
+-        response = self.client.chat.completions.create(**kwargs)
+-        return response.choices[0].message.content
 +        try:
 +            logger.info(f"🤖 Calling {self.model} (timeout: unlimited)")
 +            start_time = time.time()
@@ -96,11 +99,15 @@ index 3acf95d..61c53f5 100644
 +        except Exception as e:
 +            elapsed = time.time() - start_time
 +            if "response_format" in str(e).lower() or "json_schema" in str(e).lower():
-+                logger.warning(f"⚠️  JSON schema not supported, retrying with basic JSON mode")
++                logger.warning(
++                    f"⚠️  JSON schema not supported, retrying with basic JSON mode"
++                )
 +                kwargs["response_format"] = {"type": "json_object"}
 +                response = self.client.chat.completions.create(**kwargs)
 +                elapsed = time.time() - start_time
-+                logger.info(f"✅ {self.model} responded in {elapsed:.2f}s (fallback mode)")
++                logger.info(
++                    f"✅ {self.model} responded in {elapsed:.2f}s (fallback mode)"
++                )
 +                return response.choices[0].message.content
 +            logger.error(f"❌ {self.model} failed after {elapsed:.2f}s: {e}")
 +            raise
@@ -130,7 +137,7 @@ index 3acf95d..61c53f5 100644
                  ],
                  response_format=response_format,
              )
-@@ -97,6 +132,7 @@ class OllamaController(BaseLLMController):
+@@ -97,6 +149,7 @@ class OllamaController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -138,7 +145,7 @@ index 3acf95d..61c53f5 100644
  class SGLangController(BaseLLMController):
      """LLM controller for SGLang server using HTTP requests.
  
-@@ -108,13 +144,21 @@ class SGLangController(BaseLLMController):
+@@ -108,13 +161,21 @@ class SGLangController(BaseLLMController):
          sglang_host: SGLang server host URL (default: "http://localhost")
          sglang_port: SGLang server port (default: 30000)
      """
@@ -162,7 +169,7 @@ index 3acf95d..61c53f5 100644
          try:
              json_schema = response_format.get("json_schema", {}).get("schema", {})
              json_schema_str = json.dumps(json_schema)
-@@ -124,15 +168,15 @@ class SGLangController(BaseLLMController):
+@@ -124,15 +185,15 @@ class SGLangController(BaseLLMController):
                  "sampling_params": {
                      "temperature": temperature,
                      "max_new_tokens": 1000,
@@ -181,7 +188,7 @@ index 3acf95d..61c53f5 100644
              )
  
              if response.status_code == 200:
-@@ -140,7 +184,9 @@ class SGLangController(BaseLLMController):
+@@ -140,7 +201,9 @@ class SGLangController(BaseLLMController):
                  generated_text = result.get("text", "")
                  return generated_text
              else:
@@ -192,7 +199,7 @@ index 3acf95d..61c53f5 100644
                  raise Exception(f"SGLang server error: {response.status_code}")
  
          except Exception as e:
-@@ -148,6 +194,7 @@ class SGLangController(BaseLLMController):
+@@ -148,6 +211,7 @@ class SGLangController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -200,7 +207,7 @@ index 3acf95d..61c53f5 100644
  class OpenRouterController(BaseLLMController):
      """LLM controller for OpenRouter API using litellm.
  
-@@ -168,7 +215,9 @@ class OpenRouterController(BaseLLMController):
+@@ -168,7 +232,9 @@ class OpenRouterController(BaseLLMController):
          >>> controller = OpenRouterController("google/gemini-2.0-flash-001:free")
      """
  
@@ -211,7 +218,7 @@ index 3acf95d..61c53f5 100644
          # For litellm, prepend "openrouter/" if not already present
          if not model.startswith("openrouter/"):
              self.model = f"openrouter/{model}"
-@@ -176,15 +225,19 @@ class OpenRouterController(BaseLLMController):
+@@ -176,15 +242,19 @@ class OpenRouterController(BaseLLMController):
              self.model = model
  
          if api_key is None:
@@ -235,7 +242,7 @@ index 3acf95d..61c53f5 100644
          """Get completion from OpenRouter API.
  
          Args:
-@@ -199,11 +252,14 @@ class OpenRouterController(BaseLLMController):
+@@ -199,11 +269,14 @@ class OpenRouterController(BaseLLMController):
              response = completion(
                  model=self.model,
                  messages=[
@@ -253,7 +260,7 @@ index 3acf95d..61c53f5 100644
              )
              return response.choices[0].message.content
          except Exception as e:
-@@ -211,17 +267,21 @@ class OpenRouterController(BaseLLMController):
+@@ -211,17 +284,21 @@ class OpenRouterController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -281,7 +288,7 @@ index 3acf95d..61c53f5 100644
          if backend == "openai":
              self.llm = OpenAIController(model, api_key)
          elif backend == "ollama":
-@@ -231,7 +291,11 @@ class LLMController:
+@@ -231,7 +308,11 @@ class LLMController:
          elif backend == "openrouter":
              self.llm = OpenRouterController(model, api_key)
          else:
