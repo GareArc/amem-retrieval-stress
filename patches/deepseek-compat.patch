@@ -1,8 +1,8 @@
 diff --git a/agentic_memory/llm_controller.py b/agentic_memory/llm_controller.py
-index 3acf95d..5141fea 100644
+index 3acf95d..123954f 100644
 --- a/agentic_memory/llm_controller.py
 +++ b/agentic_memory/llm_controller.py
-@@ -1,9 +1,32 @@
+@@ -1,9 +1,34 @@
  from typing import Dict, Optional, Literal, Any
  import os
  import json
@@ -13,6 +13,8 @@ index 3acf95d..5141fea 100644
 +import logging
 +import time
 +import socket
++import urllib.request
++import urllib.error
 +
 +logger = logging.getLogger(__name__)
 +
@@ -35,7 +37,7 @@ index 3acf95d..5141fea 100644
  
  class BaseLLMController(ABC):
      @abstractmethod
-@@ -36,59 +59,219 @@ class BaseLLMController(ABC):
+@@ -36,59 +61,219 @@ class BaseLLMController(ABC):
          if "properties" in schema:
              for prop_name, prop_schema in schema["properties"].items():
                  result[prop_name] = self._generate_empty_value(
@@ -272,7 +274,7 @@ index 3acf95d..5141fea 100644
                  ],
                  response_format=response_format,
              )
-@@ -97,6 +280,7 @@ class OllamaController(BaseLLMController):
+@@ -97,6 +282,7 @@ class OllamaController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -280,7 +282,7 @@ index 3acf95d..5141fea 100644
  class SGLangController(BaseLLMController):
      """LLM controller for SGLang server using HTTP requests.
  
-@@ -108,13 +292,21 @@ class SGLangController(BaseLLMController):
+@@ -108,13 +294,21 @@ class SGLangController(BaseLLMController):
          sglang_host: SGLang server host URL (default: "http://localhost")
          sglang_port: SGLang server port (default: 30000)
      """
@@ -304,7 +306,7 @@ index 3acf95d..5141fea 100644
          try:
              json_schema = response_format.get("json_schema", {}).get("schema", {})
              json_schema_str = json.dumps(json_schema)
-@@ -124,15 +316,15 @@ class SGLangController(BaseLLMController):
+@@ -124,15 +318,15 @@ class SGLangController(BaseLLMController):
                  "sampling_params": {
                      "temperature": temperature,
                      "max_new_tokens": 1000,
@@ -323,7 +325,7 @@ index 3acf95d..5141fea 100644
              )
  
              if response.status_code == 200:
-@@ -140,7 +332,9 @@ class SGLangController(BaseLLMController):
+@@ -140,7 +334,9 @@ class SGLangController(BaseLLMController):
                  generated_text = result.get("text", "")
                  return generated_text
              else:
@@ -334,7 +336,7 @@ index 3acf95d..5141fea 100644
                  raise Exception(f"SGLang server error: {response.status_code}")
  
          except Exception as e:
-@@ -148,6 +342,7 @@ class SGLangController(BaseLLMController):
+@@ -148,6 +344,7 @@ class SGLangController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -342,7 +344,7 @@ index 3acf95d..5141fea 100644
  class OpenRouterController(BaseLLMController):
      """LLM controller for OpenRouter API using litellm.
  
-@@ -168,7 +363,9 @@ class OpenRouterController(BaseLLMController):
+@@ -168,7 +365,9 @@ class OpenRouterController(BaseLLMController):
          >>> controller = OpenRouterController("google/gemini-2.0-flash-001:free")
      """
  
@@ -353,7 +355,7 @@ index 3acf95d..5141fea 100644
          # For litellm, prepend "openrouter/" if not already present
          if not model.startswith("openrouter/"):
              self.model = f"openrouter/{model}"
-@@ -176,15 +373,19 @@ class OpenRouterController(BaseLLMController):
+@@ -176,15 +375,19 @@ class OpenRouterController(BaseLLMController):
              self.model = model
  
          if api_key is None:
@@ -377,7 +379,7 @@ index 3acf95d..5141fea 100644
          """Get completion from OpenRouter API.
  
          Args:
-@@ -199,11 +400,14 @@ class OpenRouterController(BaseLLMController):
+@@ -199,11 +402,14 @@ class OpenRouterController(BaseLLMController):
              response = completion(
                  model=self.model,
                  messages=[
@@ -395,18 +397,146 @@ index 3acf95d..5141fea 100644
              )
              return response.choices[0].message.content
          except Exception as e:
-@@ -211,19 +415,39 @@ class OpenRouterController(BaseLLMController):
+@@ -211,19 +417,167 @@ class OpenRouterController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
 +
-+class DeepSeekController(OpenAIController):
-+    """OpenAI-compatible controller with IPv4-only workaround for DeepSeek's broken IPv6 endpoint."""
++class DeepSeekController(BaseLLMController):
++    """Standalone DeepSeek controller using only builtin packages (urllib).
++
++    Uses IPv4-only DNS resolution to avoid DeepSeek's broken IPv6 endpoint.
++    No external dependencies required (httpx, openai SDK).
++    """
 +
 +    def __init__(self, model: str = "deepseek-chat", api_key: Optional[str] = None):
++        self.model = model
++        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
++        if not self.api_key:
++            raise ValueError(
++                "DeepSeek API key not found. Set OPENAI_API_KEY environment variable."
++            )
++
++        self.base_url = os.getenv("OPENAI_BASE_URL", "https://api.deepseek.com").rstrip(
++            "/"
++        )
++
++        # Apply IPv4-only patch
 +        _enable_ipv4_only()
-+        logger.info("🔧 Using DeepSeekController with IPv4-only transport")
-+        super().__init__(model, api_key, force_ipv4=True)
++        logger.info(
++            "🔧 Using standalone DeepSeekController (builtin urllib, IPv4-only)"
++        )
++
++    def get_completion(
++        self,
++        prompt: str,
++        response_format: dict,
++        temperature: float = 1.0,
++        max_tokens: int = None,
++    ) -> str:
++        """Get completion from DeepSeek API using urllib."""
++        url = f"{self.base_url}/chat/completions"
++
++        # Build messages
++        messages = [
++            {"role": "system", "content": "You must respond with a JSON object."},
++            {"role": "user", "content": prompt},
++        ]
++
++        # Build payload
++        payload = {
++            "model": self.model,
++            "messages": messages,
++            "temperature": temperature,
++        }
++
++        if max_tokens is not None:
++            payload["max_tokens"] = max_tokens
++
++        # Add response_format if json_schema is specified
++        if response_format and "json_schema" in response_format:
++            payload["response_format"] = response_format
++
++        headers = {
++            "Content-Type": "application/json",
++            "Authorization": f"Bearer {self.api_key}",
++        }
++
++        try:
++            logger.info(f"{'=' * 80}")
++            logger.info(f"🤖 LLM CALL: {self.model}")
++            logger.info(f"⚙️  Config: timeout=120s, IPv4-only, temp={temperature}")
++
++            # Create request
++            data = json.dumps(payload).encode("utf-8")
++            req = urllib.request.Request(url, data=data, headers=headers)
++
++            start_time = time.time()
++
++            # Send request
++            with urllib.request.urlopen(req, timeout=120) as response:
++                elapsed = time.time() - start_time
++
++                # Parse response
++                response_data = json.loads(response.read().decode("utf-8"))
++
++                # Extract content
++                choice = response_data["choices"][0]
++                content = choice["message"]["content"]
++                usage = response_data.get("usage", {})
++
++                logger.info(f"✅ SUCCESS in {elapsed:.2f}s")
++                logger.info(
++                    f"📊 Tokens: prompt={usage.get('prompt_tokens', 'N/A')}, "
++                    f"completion={usage.get('completion_tokens', 'N/A')}, "
++                    f"total={usage.get('total_tokens', 'N/A')}"
++                )
++                logger.info(f"📝 Response length: {len(content)} chars")
++                logger.info(f"{'=' * 80}")
++
++                return content
++
++        except urllib.error.HTTPError as e:
++            elapsed = time.time() - start_time
++            error_body = e.read().decode("utf-8") if e.fp else str(e)
++
++            logger.error(f"{'=' * 80}")
++            logger.error(f"❌ FAILED: {self.model} after {elapsed:.2f}s")
++            logger.error(f"🔴 HTTP Error {e.code}: {e.reason}")
++            logger.error(f"🔴 Response: {error_body}")
++            logger.error(f"{'=' * 80}")
++
++            # Fallback to empty response
++            empty_response = self._generate_empty_response(response_format)
++            return json.dumps(empty_response)
++
++        except urllib.error.URLError as e:
++            elapsed = time.time() - start_time
++
++            logger.error(f"{'=' * 80}")
++            logger.error(f"❌ FAILED: {self.model} after {elapsed:.2f}s")
++            logger.error(f"🔴 URL Error: {e.reason}")
++
++            if "timeout" in str(e.reason).lower():
++                logger.error("⏱️  TIMEOUT - DeepSeek may be slow or overloaded")
++
++            logger.error(f"{'=' * 80}")
++
++            # Fallback to empty response
++            empty_response = self._generate_empty_response(response_format)
++            return json.dumps(empty_response)
++
++        except Exception as e:
++            elapsed = time.time() - start_time
++
++            logger.error(f"{'=' * 80}")
++            logger.error(f"❌ FAILED: {self.model} after {elapsed:.2f}s")
++            logger.error(f"🔴 Error: {type(e).__name__}: {str(e)}")
++            logger.error(f"{'=' * 80}")
++
++            # Fallback to empty response
++            empty_response = self._generate_empty_response(response_format)
++            return json.dumps(empty_response)
 +
 +
  class LLMController:
@@ -443,7 +573,7 @@ index 3acf95d..5141fea 100644
          elif backend == "ollama":
              self.llm = OllamaController(model)
          elif backend == "sglang":
-@@ -231,7 +455,11 @@ class LLMController:
+@@ -231,7 +585,11 @@ class LLMController:
          elif backend == "openrouter":
              self.llm = OpenRouterController(model, api_key)
          else:
