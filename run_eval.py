@@ -42,6 +42,7 @@ Usage examples:
 from __future__ import annotations
 
 import argparse
+import logging
 import sys
 from pathlib import Path
 
@@ -150,6 +151,19 @@ def main() -> None:
     )
 
     args = parser.parse_args()
+
+    # ── Configure logging ─────────────────────────────────────────────
+    if args.verbose:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        )
+    else:
+        logging.basicConfig(
+            level=logging.WARNING,
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        )
+        logging.getLogger("agentic_memory.llm_controller").setLevel(logging.INFO)
 
     # ── List mode ─────────────────────────────────────────────────────
     if args.list:
