@@ -68,6 +68,7 @@ class CaseResult:
     agentic_metrics: SearchMetrics = field(default_factory=SearchMetrics)
     memories: list[MemoryInput] = field(default_factory=list)
     duration_seconds: float = 0.0
+    llm_tokens: dict = field(default_factory=lambda: {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0})
     error: str | None = None
     notes: str = ""
 
@@ -302,6 +303,7 @@ def _run_case_isolated(config: dict[str, Any], case: dict[str, Any]) -> CaseResu
         result.agentic_metrics = _evaluate(case, agentic_results, id_map)
         result.passed_search = _case_passed(result.search_metrics)
         result.passed_agentic = _case_passed(result.agentic_metrics)
+        result.llm_tokens = system.llm_controller.token_usage.copy()
 
     except Exception as exc:
         result.error = f"{type(exc).__name__}: {exc}"
@@ -557,6 +559,20 @@ class EvaluationRunner:
             )
         print()
 
+        # ── Token usage ───────────────────────────────────────────────
+        total_prompt = sum(r.llm_tokens.get("prompt_tokens", 0) for r in results)
+        total_completion = sum(r.llm_tokens.get("completion_tokens", 0) for r in results)
+        total_tokens = sum(r.llm_tokens.get("total_tokens", 0) for r in results)
+        if total_tokens > 0:
+            print(f"  {'LLM Token Usage':25s}")
+            print(f"  {'-' * 50}")
+            print(f"  {'Prompt tokens:':<25s} {total_prompt:>10,}")
+            print(f"  {'Completion tokens:':<25s} {total_completion:>10,}")
+            print(f"  {'Total tokens:':<25s} {total_tokens:>10,}")
+            if grand_total > 1:
+                print(f"  {'Avg per case:':<25s} {total_tokens // grand_total:>10,}")
+            print()
+
         # ── Failures detail ───────────────────────────────────────────
         failures = [r for r in results if not r.passed_agentic]
         if failures:
@@ -579,6 +595,11 @@ class EvaluationRunner:
                     "total_cases": grand_total,
                     "pass_search": total_pass_s,
                     "pass_agentic": total_pass_a,
+                    "total_tokens": {
+                        "prompt_tokens": total_prompt,
+                        "completion_tokens": total_completion,
+                        "total_tokens": total_tokens,
+                    },
                     "tiers": {
                         str(t): {
                             "name": tier_names.get(t, "???"),

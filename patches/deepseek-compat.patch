@@ -1,5 +1,5 @@
 diff --git a/agentic_memory/llm_controller.py b/agentic_memory/llm_controller.py
-index 3acf95d..b251533 100644
+index 3acf95d..daa268e 100644
 --- a/agentic_memory/llm_controller.py
 +++ b/agentic_memory/llm_controller.py
 @@ -1,10 +1,28 @@
@@ -31,7 +31,27 @@ index 3acf95d..b251533 100644
  class BaseLLMController(ABC):
      @abstractmethod
      def get_completion(self, prompt: str) -> str:
-@@ -211,19 +229,107 @@ class OpenRouterController(BaseLLMController):
+@@ -55,6 +73,8 @@ class OpenAIController(BaseLLMController):
+         except ImportError:
+             raise ImportError("OpenAI package not found. Install it with: pip install openai")
+ 
++        self.token_usage = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
++
+     def get_completion(self, prompt: str, response_format: dict, temperature: float = 1.0, max_tokens: int = None) -> str:
+         # Build kwargs dynamically based on model type
+         kwargs = {
+@@ -75,6 +95,10 @@ class OpenAIController(BaseLLMController):
+                 kwargs["max_tokens"] = max_tokens
+ 
+         response = self.client.chat.completions.create(**kwargs)
++        if response.usage:
++            self.token_usage["prompt_tokens"] += response.usage.prompt_tokens
++            self.token_usage["completion_tokens"] += response.usage.completion_tokens
++            self.token_usage["total_tokens"] += response.usage.total_tokens
+         return response.choices[0].message.content
+ 
+ class OllamaController(BaseLLMController):
+@@ -211,19 +235,113 @@ class OpenRouterController(BaseLLMController):
              empty_response = self._generate_empty_response(response_format)
              return json.dumps(empty_response)
  
@@ -72,6 +92,7 @@ index 3acf95d..b251533 100644
 +
 +        self.model = model
 +        self.client = OpenAI(api_key=api_key, base_url=base_url)
++        self.token_usage = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
 +
 +    def get_completion(
 +        self,
@@ -100,6 +121,11 @@ index 3acf95d..b251533 100644
 +            kwargs["max_tokens"] = max_tokens
 +
 +        response = self.client.chat.completions.create(**kwargs)
++        if response.usage:
++            self.token_usage["prompt_tokens"] += response.usage.prompt_tokens
++            self.token_usage["completion_tokens"] += response.usage.completion_tokens
++            self.token_usage["total_tokens"] += response.usage.total_tokens
++
 +        content = response.choices[0].message.content
 +
 +        # Strip markdown code fences that DeepSeek sometimes adds
@@ -127,10 +153,10 @@ index 3acf95d..b251533 100644
                   api_key: Optional[str] = None,
                   sglang_host: str = "http://localhost",
                   sglang_port: int = 30000):
-+        # Auto-detect DeepSeek when the OpenAI-compat base URL is set
++        # Auto-detect DeepSeek from base URL or model name
 +        if backend == "openai":
 +            base_url = os.getenv("OPENAI_BASE_URL", "")
-+            if "deepseek.com" in base_url:
++            if "deepseek.com" in base_url or "deepseek" in model.lower():
 +                backend = "deepseek"
 +
          if backend == "openai":
@@ -141,7 +167,7 @@ index 3acf95d..b251533 100644
          elif backend == "ollama":
              self.llm = OllamaController(model)
          elif backend == "sglang":
-@@ -231,7 +337,7 @@ class LLMController:
+@@ -231,7 +349,11 @@ class LLMController:
          elif backend == "openrouter":
              self.llm = OpenRouterController(model, api_key)
          else:
@@ -150,3 +176,7 @@ index 3acf95d..b251533 100644
  
      def get_completion(self, prompt: str, response_format: dict = None, temperature: float = 1.0) -> str:
          return self.llm.get_completion(prompt, response_format, temperature)
++
++    @property
++    def token_usage(self) -> dict:
++        return getattr(self.llm, "token_usage", {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0})
