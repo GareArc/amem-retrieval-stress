@@ -21,4 +21,11 @@ logs:
 status:
 	@tmux has-session -t $(SESSION) 2>/dev/null && echo "Running." || echo "Not running."
 
-.PHONY: run stop logs status
+patch:
+	@cd A-mem-sys && git checkout agentic_memory/memory_system.py agentic_memory/llm_controller.py
+	@cd A-mem-sys && git apply --whitespace=fix ../patches/deepseek-compat.patch
+	@cd A-mem-sys && git apply --whitespace=fix ../patches/evolution-logging.patch
+	@cd A-mem-sys && git apply --whitespace=fix ../patches/fix-links-deserialization.patch
+	@echo "All patches applied."
+
+.PHONY: run stop logs status patch
