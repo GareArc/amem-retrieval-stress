@@ -2,7 +2,7 @@ SESSION := amem-eval
 CMD := python run_eval.py --provider openai --model gpt-4o-mini
 
 run:
-	@tmux new-session -d -s $(SESSION) "source .venv/bin/activate && $(CMD)" 2>/dev/null || \
+	@tmux new-session -d -s $(SESSION) "source .venv/bin/activate && OPENAI_API_KEY='$(OPENAI_API_KEY)' OPENAI_BASE_URL='$(OPENAI_BASE_URL)' $(CMD)" 2>/dev/null || \
 		(echo "Session already running. Use 'make stop' first or 'make logs' to attach." && exit 1)
 	@echo "Started. Run 'make logs' to follow output."
 
