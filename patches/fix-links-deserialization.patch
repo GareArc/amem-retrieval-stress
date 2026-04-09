@@ -1,0 +1,21 @@
+diff --git a/agentic_memory/memory_system.py b/agentic_memory/memory_system.py
+--- a/agentic_memory/memory_system.py
++++ b/agentic_memory/memory_system.py
+@@ -593,10 +593,16 @@ class AgenticMemorySystem:
+                 if neighbor_count >= k:
+                     break
+
+-                # Get links from metadata
++                # Get links — ChromaDB stores lists as JSON strings, deserialize if needed
+                 links = memory.get('links', [])
+-                if not links and 'id' in memory:
+-                    # Try to get links from memory object
++                if isinstance(links, str):
++                    try:
++                        links = json.loads(links)
++                    except (json.JSONDecodeError, ValueError):
++                        links = []
++                if not links and 'id' in memory:
+                     mem_obj = self.memories.get(memory['id'])
+                     if mem_obj:
+                         links = mem_obj.links

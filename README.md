@@ -10,7 +10,7 @@ cd memory-retrieval
 
 python -m venv .venv && source .venv/bin/activate
 
-# Apply DeepSeek compatibility patch to A-mem-sys
+# Apply patch to A-mem-sys (adds token tracking + DeepSeek support)
 cd A-mem-sys && git apply ../patches/deepseek-compat.patch && cd ..
 
 pip install -e A-mem-sys/
@@ -26,28 +26,34 @@ git apply ../patches/deepseek-compat.patch     # Apply updated patch
 cd ..
 ```
 
-**Optional**: Set LLM API key (only needed if NOT using `--skip-llm-analysis`):
-
-```bash
-export OPENAI_API_KEY="sk-..."
-# or OPENROUTER_API_KEY for OpenRouter
-```
-
 ## Quick Start
 
 ```bash
-# Fastest mode (RECOMMENDED) - skip both analysis and evolution, no LLM calls
+# Fastest mode — no LLM calls, pure vector search
 python run_eval.py --skip-llm-analysis --skip-evolution
 
-# Fast mode - use pre-defined metadata, but enable evolution (requires API)
+# Test link expansion (evolution only, requires API key)
+export OPENAI_API_KEY="sk-..."
 python run_eval.py --skip-llm-analysis
 
-# Full mode - LLM-generated metadata + evolution (slowest, requires API)
+# Full mode — LLM metadata + evolution (slowest)
 python run_eval.py
-
-# Verbose output
-python run_eval.py --skip-llm-analysis --skip-evolution -v
 ```
+
+## OpenAI Configuration
+
+```bash
+export OPENAI_API_KEY="sk-..."
+
+# Default: gpt-4o-mini
+python run_eval.py --skip-llm-analysis
+
+# Specify model
+python run_eval.py --provider openai --model gpt-4o-mini --skip-llm-analysis
+python run_eval.py --provider openai --model gpt-4o --skip-llm-analysis
+```
+
+The API key is only required when NOT using both `--skip-llm-analysis` and `--skip-evolution`.
 
 ## Selecting Tests
 
@@ -63,20 +69,17 @@ python run_eval.py --case T1-05 -v
 python run_eval.py --list
 ```
 
-## Switching Model / Provider
+## Other Providers
 
 ```bash
-# OpenAI (default)
-python run_eval.py --provider openai --model gpt-4o-mini
-
 # Ollama (local, no API key needed)
 python run_eval.py --provider ollama --model llama3
 
-# DeepSeek (OpenAI-compatible, direct)
+# DeepSeek (via OpenAI-compatible API)
 OPENAI_API_KEY="sk-your-deepseek-key" OPENAI_BASE_URL="https://api.deepseek.com" \
   python run_eval.py --provider openai --model deepseek-chat
 
-# OpenRouter (any model including DeepSeek)
+# OpenRouter
 python run_eval.py --provider openrouter --model deepseek/deepseek-chat
 python run_eval.py --provider openrouter --model anthropic/claude-3.5-sonnet
 
@@ -96,9 +99,6 @@ python run_eval.py --skip-llm-analysis --skip-evolution --embedding-model all-mp
 
 # Parallel execution (faster for full suite)
 python run_eval.py --skip-llm-analysis --skip-evolution --workers 4
-
-# Test with evolution enabled (keeps link creation)
-python run_eval.py --skip-llm-analysis  # Note: no --skip-evolution
 ```
 
 ## Output
@@ -111,42 +111,37 @@ python run_eval.py -o results/run_001.json
 
 The report compares `search()` (pure vector) vs `search_agentic()` (vector + link expansion) across all cases.
 
-## Performance Optimization
-
-### Fast Testing Modes ⚡
+## Performance
 
 **Three levels of LLM usage:**
 
-#### Level 1: No LLM (Fastest) - RECOMMENDED
+#### Level 1: No LLM (Fastest)
 ```bash
 python run_eval.py --skip-llm-analysis --skip-evolution
 ```
-- ✅ **No API calls** - Zero LLM usage
-- ✅ **~30 seconds** for full suite
-- ✅ **Deterministic** - Same results every run
-- ✅ Tests: Pure vector search (no link expansion)
+- No API calls, ~30 seconds for full suite
+- Tests pure vector search (no link expansion)
 
-#### Level 2: Partial LLM (Fast)
+#### Level 2: Evolution only (Recommended for agentic testing)
 ```bash
+export OPENAI_API_KEY="sk-..."
 python run_eval.py --skip-llm-analysis
 ```
-- ⚠️ **LLM calls for evolution only** - Link creation during memory loading
-- ⏱️ **~5-10 minutes** for full suite (depends on API speed)
-- ✅ Tests: Vector search + link expansion (agentic behavior)
+- LLM calls for evolution only (link creation during memory loading)
+- ~5-10 minutes for full suite
+- Tests vector search + link expansion
 
-#### Level 3: Full LLM (Slow)
+#### Level 3: Full LLM
 ```bash
+export OPENAI_API_KEY="sk-..."
 python run_eval.py
 ```
-- ⚠️ **Full LLM usage** - Metadata generation + evolution
-- ⏱️ **~1-4 hours** for full suite
-- 📊 Tests: End-to-end with LLM-generated metadata
+- Full LLM usage: metadata generation + evolution
+- ~1-4 hours for full suite
 
 **What each flag does:**
-- `--skip-llm-analysis`: Uses pre-defined keywords/context/tags (skips `analyze_content()`)
+- `--skip-llm-analysis`: Uses pre-defined keywords/context/tags from fixtures (skips `analyze_content()`)
 - `--skip-evolution`: Skips link creation (disables `process_memory()`)
-
-**Recommendation:** Use Level 1 for testing retrieval logic, Level 2 for testing link expansion
 
 ## Test Tiers
 
@@ -159,7 +154,8 @@ python run_eval.py
 ### Design Principles
 
 - **No keyword leakage**: queries never share discriminating words with target memories. Connection requires understanding, not keyword matching.
-- **Strong distractors**: each case includes 3-4 distractor memories that share topic/vocabulary with targets — only the tested dimension (ambiguity/time/inference) distinguishes them. Total of 135 distractors across all cases.
+- **Strong distractors**: each case includes 3-6 distractor memories sharing topic/vocabulary with targets — only the tested dimension distinguishes them. 180 distractors across all cases, with T3 cases having 6 distractors each to increase the chance of evolution link creation.
+- **Minimal noise**: 5 off-topic noise memories per case (down from 20) so case-relevant memories dominate the neighbor pool during evolution.
 - **Both search methods**: every case runs `search()` and `search_agentic()` to isolate whether A-mem's link expansion helps.
 
 ## Metrics (per case)
@@ -173,29 +169,53 @@ python run_eval.py
 
 A case **passes** if all targets are retrieved AND no distractors contaminate results.
 
+## Patches
+
+Patches in `patches/` are applied to the A-mem-sys submodule and tracked separately so the submodule stays on upstream HEAD.
+
+| Patch | What it does |
+|-------|-------------|
+| `deepseek-compat.patch` | Adds token usage tracking, DeepSeek controller, OpenRouter support |
+| `evolution-logging.patch` | Logs `should_evolve` decisions during memory insertion (debugging) |
+| `fix-links-deserialization.patch` | Fixes ChromaDB JSON string deserialization for memory links in `search_agentic()` |
+
+To apply all patches:
+```bash
+cd A-mem-sys
+git apply ../patches/deepseek-compat.patch
+# Optional debugging patches:
+git apply ../patches/evolution-logging.patch
+git apply ../patches/fix-links-deserialization.patch
+cd ..
+```
+
 ## Troubleshooting
+
+### API key not found
+```
+ValueError: OpenAI API key not found
+```
+Set the environment variable before running:
+```bash
+export OPENAI_API_KEY="sk-..."
+python run_eval.py --skip-llm-analysis
+```
 
 ### Request Timeout Errors
 
-If you see "Request timed out" errors during tests:
+If you see "Request timed out" errors:
 
-1. **Use fast mode (RECOMMENDED)**: `python run_eval.py --skip-llm-analysis`
-2. **Patch applied?** The DeepSeek compatibility patch increases timeout to 120s and adds `OPENAI_BASE_URL` support. Re-apply if needed (see Setup).
-3. **Slow API?** DeepSeek can be slower during peak hours. Consider using local Ollama instead:
-   ```bash
-   python run_eval.py --provider ollama --model llama3
-   ```
-4. **Network issues?** Check API connectivity or try a different provider (OpenRouter, OpenAI).
+1. Use fast mode: `python run_eval.py --skip-llm-analysis`
+2. Check the patch is applied (adds 120s timeout). Re-apply if needed (see Setup).
+3. Try a different provider: `--provider ollama` for local inference.
 
 ### Patch Updates
 
-The `patches/deepseek-compat.patch` file may be updated occasionally. To sync:
-
 ```bash
-git pull origin main                                # Get latest patch
+git pull origin main
 cd A-mem-sys
-git checkout agentic_memory/llm_controller.py      # Revert old changes
-git apply ../patches/deepseek-compat.patch         # Apply updated patch
+git checkout agentic_memory/llm_controller.py
+git apply ../patches/deepseek-compat.patch
 cd ..
 ```
 
@@ -203,10 +223,12 @@ cd ..
 
 ```
 eval/
-  fixtures.py   # 45 test cases with 135 total distractors
-  runner.py     # EvaluationRunner pipeline
-run_eval.py     # CLI entry point
-A-mem-sys/      # Target system under test (submodule)
-patches/        # Compatibility patches for A-mem-sys
-  deepseek-compat.patch  # Adds timeout + base_url support
+  fixtures.py       # 45 test cases, 180 distractors, 5 noise memories
+  runner.py         # EvaluationRunner pipeline
+run_eval.py         # CLI entry point
+A-mem-sys/          # Target system under test (submodule)
+patches/            # Patches applied to A-mem-sys (submodule stays on upstream HEAD)
+  deepseek-compat.patch          # Token tracking + DeepSeek/OpenRouter support
+  evolution-logging.patch        # Debug: log evolution decisions
+  fix-links-deserialization.patch # Fix: agentic search link traversal
 ```
