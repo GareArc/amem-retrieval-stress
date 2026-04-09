@@ -1,6 +1,6 @@
 --- a/agentic_memory/memory_system.py
 +++ b/agentic_memory/memory_system.py
-@@ -706,7 +706,8 @@ class AgenticMemorySystem:
+@@ -706,8 +706,9 @@ class AgenticMemorySystem:
                  )
 
                  response_json = json.loads(response)

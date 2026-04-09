@@ -1,7 +1,6 @@
-diff --git a/agentic_memory/memory_system.py b/agentic_memory/memory_system.py
 --- a/agentic_memory/memory_system.py
 +++ b/agentic_memory/memory_system.py
-@@ -593,10 +593,16 @@ class AgenticMemorySystem:
+@@ -592,10 +592,14 @@ class AgenticMemorySystem:
                  if neighbor_count >= k:
                      break
 
