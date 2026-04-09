@@ -1,7 +1,7 @@
-diff --git a/agentic_memory/memory_system.py b/agentic_memory/memory_system.py
 --- a/agentic_memory/memory_system.py
 +++ b/agentic_memory/memory_system.py
-@@ -707,7 +707,8 @@ class AgenticMemorySystem:
+@@ -706,7 +706,8 @@ class AgenticMemorySystem:
+                 )
 
                  response_json = json.loads(response)
                  should_evolve = response_json["should_evolve"]
