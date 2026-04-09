@@ -13,7 +13,7 @@ stop:
 	@tmux kill-session -t $(SESSION) 2>/dev/null && echo "Stopped." || echo "No session running."
 
 logs:
-	@tmux attach -t $(SESSION)
+	@tmux attach -t $(SESSION) 2>/dev/null || echo "No session running. Use 'make run' to start."
 
 status:
 	@tmux has-session -t $(SESSION) 2>/dev/null && echo "Running." || echo "Not running."
