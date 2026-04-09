@@ -1,5 +1,5 @@
 SESSION := amem-eval
-CMD := python run_eval.py --provider openai --model gpt-4o-mini --skip-llm-analysis
+CMD := python run_eval.py --provider openai --model gpt-4o-mini
 
 run:
 	@tmux new-session -d -s $(SESSION) "source .venv/bin/activate && $(CMD)" 2>/dev/null || \
