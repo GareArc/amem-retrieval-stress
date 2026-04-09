@@ -5,7 +5,7 @@ OPENAI_API_KEY ?= sk-your-api-key-here
 OPENAI_BASE_URL ?= https://api.openai.com/v1
 
 run:
-	@tmux new-session -d -s $(SESSION) "source .venv/bin/activate && OPENAI_API_KEY='$(OPENAI_API_KEY)' OPENAI_BASE_URL='$(OPENAI_BASE_URL)' $(CMD) 2>&1 | tee eval_logs.txt" 2>/dev/null || \
+	@tmux new-session -d -s $(SESSION) "cd $(PWD) && if command -v uv > /dev/null 2>&1; then OPENAI_API_KEY='$(OPENAI_API_KEY)' OPENAI_BASE_URL='$(OPENAI_BASE_URL)' uv run $(CMD) 2>&1 | tee eval_logs.txt; else source .venv/bin/activate && OPENAI_API_KEY='$(OPENAI_API_KEY)' OPENAI_BASE_URL='$(OPENAI_BASE_URL)' $(CMD) 2>&1 | tee eval_logs.txt; fi" 2>/dev/null || \
 		(echo "Session already running. Use 'make stop' first or 'make logs' to attach." && exit 1)
 	@echo "Started. Run 'make logs' to follow output."
 
