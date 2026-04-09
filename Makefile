@@ -1,5 +1,5 @@
 SESSION := amem-eval
-MODEL ?= gpt-4o-mini
+MODEL ?= gpt-5-mini
 CMD := python run_eval.py --provider openai --model $(MODEL)
 
 OPENAI_API_KEY ?= sk-your-api-key-here
