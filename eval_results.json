@@ -1,0 +1,5055 @@
+{
+  "summary": {
+    "total_cases": 45,
+    "pass_search": 0,
+    "pass_agentic": 0,
+    "total_tokens": {
+      "prompt_tokens": 476057,
+      "completion_tokens": 99320,
+      "total_tokens": 575377
+    },
+    "tiers": {
+      "1": {
+        "name": "AMBIGUITY",
+        "total": 15,
+        "pass_search": 0,
+        "pass_agentic": 0,
+        "avg_recall_search": 1.0,
+        "avg_recall_agentic": 1.0,
+        "avg_mrr_search": 1.0,
+        "avg_mrr_agentic": 1.0,
+        "errors": 0
+      },
+      "2": {
+        "name": "TEMPORAL",
+        "total": 15,
+        "pass_search": 0,
+        "pass_agentic": 0,
+        "avg_recall_search": 0.6667,
+        "avg_recall_agentic": 0.8333,
+        "avg_mrr_search": 0.4333,
+        "avg_mrr_agentic": 0.5222,
+        "errors": 0
+      },
+      "3": {
+        "name": "MULTI-HOP",
+        "total": 15,
+        "pass_search": 0,
+        "pass_agentic": 0,
+        "avg_recall_search": 0.4667,
+        "avg_recall_agentic": 0.5333,
+        "avg_mrr_search": 0.3778,
+        "avg_mrr_agentic": 0.4111,
+        "errors": 0
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "T1-01",
+      "tier": 1,
+      "category": "polysemy_entity",
+      "title": "Apple: tech company vs fruit",
+      "query": "How did the Cupertino tech giant perform financially last quarter?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "19831eea-f4bb-4750-98bc-844a462b4fe4",
+          "ac5a3cf7-b5ea-426b-9dff-fd88be3f1ee2",
+          "a8254645-dc8b-4aed-a5c4-d2b1a0b1f43e"
+        ],
+        "result_contents": [
+          "Apple's quarterly revenue reached $94 billion driven by strong iPhone and services growth",
+          "Apple pie remains the top-selling dessert at the bakery according to quarterly sales data",
+          "Apple orchards in Washington State reported record harvest yields this quarter"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6532831192016602,
+          0.7614059448242188,
+          0.9076967835426331
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "19831eea-f4bb-4750-98bc-844a462b4fe4",
+          "ac5a3cf7-b5ea-426b-9dff-fd88be3f1ee2",
+          "c163f869-63d9-45d3-98ad-0835ca3c5ae5"
+        ],
+        "result_contents": [
+          "Apple's quarterly revenue reached $94 billion driven by strong iPhone and services growth",
+          "Apple pie remains the top-selling dessert at the bakery according to quarterly sales data",
+          "The farmer's market had the freshest organic apples I've tasted all season"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6532831192016602,
+          0.7614059448242188,
+          0.7614059448242188
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "19831eea-f4bb-4750-98bc-844a462b4fe4",
+          "content": "Apple's quarterly revenue reached $94 billion driven by strong iPhone and services growth",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "c163f869-63d9-45d3-98ad-0835ca3c5ae5",
+          "content": "The farmer's market had the freshest organic apples I've tasted all season",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "a8254645-dc8b-4aed-a5c4-d2b1a0b1f43e",
+          "content": "Apple orchards in Washington State reported record harvest yields this quarter",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "ac5a3cf7-b5ea-426b-9dff-fd88be3f1ee2",
+          "content": "Apple pie remains the top-selling dessert at the bakery according to quarterly sales data",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 56.89,
+      "llm_tokens": {
+        "prompt_tokens": 9453,
+        "completion_tokens": 1878,
+        "total_tokens": 11331
+      },
+      "error": null,
+      "notes": "Query uses 'Cupertino tech giant' (no 'Apple'), 'perform financially' (no 'revenue'). Requires Apple = Cupertino tech giant. Multiple fruit-sense distractors including one with 'quarterly' to increase confusion."
+    },
+    {
+      "case_id": "T1-02",
+      "tier": 1,
+      "category": "polysemy_entity",
+      "title": "Python: programming language vs snake",
+      "query": "What scripting language was chosen for the server-side rewrite?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "6b4570f4-9b7e-496e-945f-8ecd9007b7b0",
+          "e18d4d03-2294-4b6e-a29f-4e6bcf8f16d4",
+          "aa510a10-bd61-4025-bdf3-a4376e044ad7"
+        ],
+        "result_contents": [
+          "We migrated our backend services to Python for better machine learning integration",
+          "The reticulated python is known for its impressive constriction capabilities and hunting efficiency",
+          "Python populations in the Florida Everglades have grown rapidly in recent years"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.8180007934570312,
+          0.8578693270683289,
+          0.9130517244338989
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "6b4570f4-9b7e-496e-945f-8ecd9007b7b0",
+          "e18d4d03-2294-4b6e-a29f-4e6bcf8f16d4",
+          "494c1639-10be-4726-9001-657ff68734f0"
+        ],
+        "result_contents": [
+          "We migrated our backend services to Python for better machine learning integration",
+          "The reticulated python is known for its impressive constriction capabilities and hunting efficiency",
+          "The Burmese python at the reptile exhibit measured over fifteen feet in length"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.8180007934570312,
+          0.8578693270683289,
+          0.8578693270683289
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "6b4570f4-9b7e-496e-945f-8ecd9007b7b0",
+          "content": "We migrated our backend services to Python for better machine learning integration",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "494c1639-10be-4726-9001-657ff68734f0",
+          "content": "The Burmese python at the reptile exhibit measured over fifteen feet in length",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "aa510a10-bd61-4025-bdf3-a4376e044ad7",
+          "content": "Python populations in the Florida Everglades have grown rapidly in recent years",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "e18d4d03-2294-4b6e-a29f-4e6bcf8f16d4",
+          "content": "The reticulated python is known for its impressive constriction capabilities and hunting efficiency",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 57.76,
+      "llm_tokens": {
+        "prompt_tokens": 9455,
+        "completion_tokens": 1937,
+        "total_tokens": 11392
+      },
+      "error": null,
+      "notes": "Query says 'scripting language' and 'server-side rewrite' — no 'Python', 'backend', or 'machine learning'. Multiple snake-sense distractors."
+    },
+    {
+      "case_id": "T1-03",
+      "tier": 1,
+      "category": "polysemy_entity",
+      "title": "Java: programming language vs Indonesian island",
+      "query": "What caused the application performance degradation in the runtime environment?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "dd525cb2-5918-4f37-a4ed-258e8850de4b",
+          "886d1bbe-4274-4568-ac13-7d595bad866a",
+          "268f0bdb-629f-46ae-9410-55252ddecf50"
+        ],
+        "result_contents": [
+          "The garbage collection pauses in our Java runtime caused latency spikes across production",
+          "We visited ancient Buddhist temples on the island of Java during our backpacking trip",
+          "The population density on Java exceeds 1,100 people per square kilometer making it one of the most crowded regions"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5334892272949219,
+          0.8585882186889648,
+          0.8823702931404114
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "dd525cb2-5918-4f37-a4ed-258e8850de4b",
+          "886d1bbe-4274-4568-ac13-7d595bad866a",
+          "268f0bdb-629f-46ae-9410-55252ddecf50"
+        ],
+        "result_contents": [
+          "The garbage collection pauses in our Java runtime caused latency spikes across production",
+          "We visited ancient Buddhist temples on the island of Java during our backpacking trip",
+          "The population density on Java exceeds 1,100 people per square kilometer making it one of the most crowded regions"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5334892272949219,
+          0.8585882186889648,
+          0.8823702931404114
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "dd525cb2-5918-4f37-a4ed-258e8850de4b",
+          "content": "The garbage collection pauses in our Java runtime caused latency spikes across production",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "886d1bbe-4274-4568-ac13-7d595bad866a",
+          "content": "We visited ancient Buddhist temples on the island of Java during our backpacking trip",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "8bc46955-c5a4-47d0-985d-c554e308dc5c",
+          "content": "Java coffee production reached record volumes during the latest harvest season",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "268f0bdb-629f-46ae-9410-55252ddecf50",
+          "content": "The population density on Java exceeds 1,100 people per square kilometer making it one of the most crowded regions",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 54.75,
+      "llm_tokens": {
+        "prompt_tokens": 9202,
+        "completion_tokens": 1757,
+        "total_tokens": 10959
+      },
+      "error": null,
+      "notes": "Query avoids 'Java', 'garbage collection', 'latency'. Uses 'application performance degradation' and 'runtime environment'. Multiple island/geography-sense distractors."
+    },
+    {
+      "case_id": "T1-04",
+      "tier": 1,
+      "category": "polysemy_entity",
+      "title": "Mercury: planet vs toxic element",
+      "query": "Which celestial body has the most extreme day-night temperature variation in our solar system?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 1,
+        "result_ids": [
+          "e12a4fdc-7a76-4d24-b4ff-b04aa8f9a925",
+          "7108908b-b231-40b9-a1c6-d1a0e8298c9a",
+          "d46641ff-6b0e-4408-aa28-1a1990a8ea5e"
+        ],
+        "result_contents": [
+          "Mercury's surface temperature fluctuates between minus 180 and plus 430 degrees Celsius",
+          "The old mercury thermometer showed extreme temperature variations before it was replaced with digital sensors",
+          "Photosynthesis converts carbon dioxide and water into glucose using sunlight as energy"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "noise"
+        ],
+        "result_scores": [
+          0.7129994630813599,
+          0.8665814399719238,
+          0.9001050591468811
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "e12a4fdc-7a76-4d24-b4ff-b04aa8f9a925",
+          "7108908b-b231-40b9-a1c6-d1a0e8298c9a",
+          "06117486-8efa-49b6-aa28-b57faa63a58a"
+        ],
+        "result_contents": [
+          "Mercury's surface temperature fluctuates between minus 180 and plus 430 degrees Celsius",
+          "The old mercury thermometer showed extreme temperature variations before it was replaced with digital sensors",
+          "Mercury levels in the fish population have prompted new health warnings from environmental authorities"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.7129994630813599,
+          0.8665814399719238,
+          0.8665814399719238
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "e12a4fdc-7a76-4d24-b4ff-b04aa8f9a925",
+          "content": "Mercury's surface temperature fluctuates between minus 180 and plus 430 degrees Celsius",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "171274ef-2550-4633-be4b-30162c046eaf",
+          "content": "Mercury contamination in the local river exceeded safe drinking water standards by a factor of three",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "06117486-8efa-49b6-aa28-b57faa63a58a",
+          "content": "Mercury levels in the fish population have prompted new health warnings from environmental authorities",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "7108908b-b231-40b9-a1c6-d1a0e8298c9a",
+          "content": "The old mercury thermometer showed extreme temperature variations before it was replaced with digital sensors",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 57.55,
+      "llm_tokens": {
+        "prompt_tokens": 9626,
+        "completion_tokens": 2047,
+        "total_tokens": 11673
+      },
+      "error": null,
+      "notes": "Query says 'celestial body' and 'solar system' — no 'Mercury', 'surface', or 'degrees'. Multiple element/substance-sense distractors, with distractor_3 mentioning 'temperature' for extra confusion."
+    },
+    {
+      "case_id": "T1-05",
+      "tier": 1,
+      "category": "polysemy_entity",
+      "title": "Mars: planet vs candy corporation",
+      "query": "What geological specimens has the robotic explorer gathered from the red planet?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "2b461190-df4e-4a81-bdda-10b0ada85eff",
+          "d94f5ab5-2996-4cb5-b765-511a56cd6b7e",
+          "01451b6e-006b-42fa-80b7-0432ce16cbc3"
+        ],
+        "result_contents": [
+          "The Perseverance rover collected rock samples in the Jezero Crater on Mars",
+          "Mars Incorporated announced a global recall of certain Snickers and Milky Way products",
+          "The Mars family maintains private ownership of the confectionery company founded in 1911"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5469957590103149,
+          0.8515204191207886,
+          0.8588834404945374
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "2b461190-df4e-4a81-bdda-10b0ada85eff",
+          "d94f5ab5-2996-4cb5-b765-511a56cd6b7e",
+          "01451b6e-006b-42fa-80b7-0432ce16cbc3"
+        ],
+        "result_contents": [
+          "The Perseverance rover collected rock samples in the Jezero Crater on Mars",
+          "Mars Incorporated announced a global recall of certain Snickers and Milky Way products",
+          "The Mars family maintains private ownership of the confectionery company founded in 1911"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5469957590103149,
+          0.8515204191207886,
+          0.8588834404945374
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "2b461190-df4e-4a81-bdda-10b0ada85eff",
+          "content": "The Perseverance rover collected rock samples in the Jezero Crater on Mars",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "d94f5ab5-2996-4cb5-b765-511a56cd6b7e",
+          "content": "Mars Incorporated announced a global recall of certain Snickers and Milky Way products",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "f61c4307-7118-4495-bb8e-b19d778f5883",
+          "content": "Mars chocolate bars saw record sales during the holiday season exceeding analyst expectations",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "01451b6e-006b-42fa-80b7-0432ce16cbc3",
+          "content": "The Mars family maintains private ownership of the confectionery company founded in 1911",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 52.91,
+      "llm_tokens": {
+        "prompt_tokens": 9346,
+        "completion_tokens": 1666,
+        "total_tokens": 11012
+      },
+      "error": null,
+      "notes": "'Robotic explorer' not 'rover', 'geological specimens' not 'rock samples', 'red planet' not 'Mars'. Multiple candy company-sense distractors."
+    },
+    {
+      "case_id": "T1-06",
+      "tier": 1,
+      "category": "polysemy_domain",
+      "title": "Bank: financial institution vs riverbank",
+      "query": "What monetary policy adjustments were announced by the national financial authority?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "4ef06e7e-1334-4773-a2d3-f85ee1252d19",
+          "8e96c586-2405-4e7c-af06-882f1a9b5a34",
+          "f64123a4-ae07-448c-9d0c-cc07a9ebb199"
+        ],
+        "result_contents": [
+          "The central bank raised the benchmark interest rate by 50 basis points this quarter",
+          "Bank stabilization projects are scheduled to begin next quarter along the waterfront",
+          "The steep bank of the canal made it difficult to access the water for irrigation"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6035302877426147,
+          0.7862882614135742,
+          0.8724668025970459
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "4ef06e7e-1334-4773-a2d3-f85ee1252d19",
+          "8e96c586-2405-4e7c-af06-882f1a9b5a34",
+          "195906e6-230a-43c7-bb22-2035439a0f56"
+        ],
+        "result_contents": [
+          "The central bank raised the benchmark interest rate by 50 basis points this quarter",
+          "Bank stabilization projects are scheduled to begin next quarter along the waterfront",
+          "Erosion along the creek bank has worsened significantly after the recent flooding"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6035302877426147,
+          0.7862882614135742,
+          0.7862882614135742
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "4ef06e7e-1334-4773-a2d3-f85ee1252d19",
+          "content": "The central bank raised the benchmark interest rate by 50 basis points this quarter",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "92ade305-a4b1-4880-af1f-2db4472b49ec",
+          "content": "Wildflowers grew abundantly along the river bank where we held last summer's picnic",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "195906e6-230a-43c7-bb22-2035439a0f56",
+          "content": "Erosion along the creek bank has worsened significantly after the recent flooding",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "f64123a4-ae07-448c-9d0c-cc07a9ebb199",
+          "content": "The steep bank of the canal made it difficult to access the water for irrigation",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "8e96c586-2405-4e7c-af06-882f1a9b5a34",
+          "content": "Bank stabilization projects are scheduled to begin next quarter along the waterfront",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 59.34,
+      "llm_tokens": {
+        "prompt_tokens": 10046,
+        "completion_tokens": 2007,
+        "total_tokens": 12053
+      },
+      "error": null,
+      "notes": "'Financial authority' not 'bank', 'monetary policy adjustments' not 'interest rate'. Multiple riverbank-sense distractors, one with 'quarter' for temporal confusion."
+    },
+    {
+      "case_id": "T1-07",
+      "tier": 1,
+      "category": "polysemy_domain",
+      "title": "Crane: construction equipment vs wading bird",
+      "query": "What heavy lifting apparatus was used at the building site?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "b82d0088-e8a0-4f84-ab9a-ee760bdaaee3",
+          "57c195f7-8f5f-4de7-b475-7eb9c4ce1b10",
+          "0ccc1686-aff1-4cd1-971c-76b1a20f666b"
+        ],
+        "result_contents": [
+          "The construction crew deployed a 200-ton crane to position the steel framework into place",
+          "A pair of sandhill cranes built their nest near the wetland preserve this spring",
+          "Whooping crane populations have shown encouraging recovery in protected habitats"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6345383524894714,
+          0.7859293222427368,
+          0.8447855710983276
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "b82d0088-e8a0-4f84-ab9a-ee760bdaaee3",
+          "57c195f7-8f5f-4de7-b475-7eb9c4ce1b10",
+          "0ccc1686-aff1-4cd1-971c-76b1a20f666b"
+        ],
+        "result_contents": [
+          "The construction crew deployed a 200-ton crane to position the steel framework into place",
+          "A pair of sandhill cranes built their nest near the wetland preserve this spring",
+          "Whooping crane populations have shown encouraging recovery in protected habitats"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6345383524894714,
+          0.7859293222427368,
+          0.8447855710983276
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "b82d0088-e8a0-4f84-ab9a-ee760bdaaee3",
+          "content": "The construction crew deployed a 200-ton crane to position the steel framework into place",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "57c195f7-8f5f-4de7-b475-7eb9c4ce1b10",
+          "content": "A pair of sandhill cranes built their nest near the wetland preserve this spring",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "0ccc1686-aff1-4cd1-971c-76b1a20f666b",
+          "content": "Whooping crane populations have shown encouraging recovery in protected habitats",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "4772cd7c-061e-4ea5-a113-b81feb391571",
+          "content": "The migratory crane species travels thousands of miles each year seeking suitable breeding grounds",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 57.68,
+      "llm_tokens": {
+        "prompt_tokens": 9300,
+        "completion_tokens": 2108,
+        "total_tokens": 11408
+      },
+      "error": null,
+      "notes": "'Heavy lifting apparatus' not 'crane', 'building site' not 'construction'. Multiple bird-sense distractors."
+    },
+    {
+      "case_id": "T1-08",
+      "tier": 1,
+      "category": "polysemy_domain",
+      "title": "Spring: season vs mechanical part",
+      "query": "When do the ornamental trees put on their annual flowering display in the US capital?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 1,
+        "result_ids": [
+          "4f7d3ba1-8238-41b0-82dd-893d0e06d8c6",
+          "cdb023fd-05a2-4188-8d51-6a90412a3613",
+          "a44e2159-3934-451e-99d2-f20fc974fc9a"
+        ],
+        "result_contents": [
+          "Cherry blossoms reach peak bloom every spring along the Tidal Basin in Washington DC",
+          "Photosynthesis converts carbon dioxide and water into glucose using sunlight as energy",
+          "Coil spring suspension systems provide better ride quality compared to leaf springs in modern vehicles"
+        ],
+        "result_roles": [
+          "target",
+          "noise",
+          "distractor"
+        ],
+        "result_scores": [
+          0.585022509098053,
+          0.9244914054870605,
+          0.9612005352973938
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 1,
+        "result_ids": [
+          "4f7d3ba1-8238-41b0-82dd-893d0e06d8c6",
+          "cdb023fd-05a2-4188-8d51-6a90412a3613",
+          "a44e2159-3934-451e-99d2-f20fc974fc9a"
+        ],
+        "result_contents": [
+          "Cherry blossoms reach peak bloom every spring along the Tidal Basin in Washington DC",
+          "Photosynthesis converts carbon dioxide and water into glucose using sunlight as energy",
+          "Coil spring suspension systems provide better ride quality compared to leaf springs in modern vehicles"
+        ],
+        "result_roles": [
+          "target",
+          "noise",
+          "distractor"
+        ],
+        "result_scores": [
+          0.585022509098053,
+          0.9244914054870605,
+          0.9612005352973938
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "4f7d3ba1-8238-41b0-82dd-893d0e06d8c6",
+          "content": "Cherry blossoms reach peak bloom every spring along the Tidal Basin in Washington DC",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "eb96bc7c-077a-4162-998c-ca907e19afe3",
+          "content": "The garage door torsion spring snapped and needs immediate professional replacement",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "a44e2159-3934-451e-99d2-f20fc974fc9a",
+          "content": "Coil spring suspension systems provide better ride quality compared to leaf springs in modern vehicles",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "ee3a072d-33d8-4865-b2c1-7006048bfd49",
+          "content": "The mattress lost support after the box spring wore out from years of use",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 54.5,
+      "llm_tokens": {
+        "prompt_tokens": 9308,
+        "completion_tokens": 1813,
+        "total_tokens": 11121
+      },
+      "error": null,
+      "notes": "'Ornamental trees', 'flowering display', 'US capital' — no 'cherry', 'spring', 'bloom', 'Washington'. Multiple mechanical part-sense distractors."
+    },
+    {
+      "case_id": "T1-09",
+      "tier": 1,
+      "category": "polysemy_domain",
+      "title": "Pitch: investor presentation vs musical tone",
+      "query": "How did the entrepreneur's fundraising presentation go with the investment groups?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "ae33897c-b900-4dbd-868c-262cd9bdbf3e",
+          "63217561-e7d1-4fb1-a640-50a5284b8c27",
+          "7158ce84-7667-4803-bafe-983e898e5547"
+        ],
+        "result_contents": [
+          "The startup founder delivered a compelling pitch to three venture capital firms last Thursday",
+          "The first violinist struggled to maintain accurate pitch throughout the concerto's second movement",
+          "The choir director adjusted the pitch upward by a half step to suit the sopranos' range"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5653411746025085,
+          0.8231529593467712,
+          0.9345864057540894
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "ae33897c-b900-4dbd-868c-262cd9bdbf3e",
+          "63217561-e7d1-4fb1-a640-50a5284b8c27",
+          "7158ce84-7667-4803-bafe-983e898e5547"
+        ],
+        "result_contents": [
+          "The startup founder delivered a compelling pitch to three venture capital firms last Thursday",
+          "The first violinist struggled to maintain accurate pitch throughout the concerto's second movement",
+          "The choir director adjusted the pitch upward by a half step to suit the sopranos' range"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5653411746025085,
+          0.8231529593467712,
+          0.9345864057540894
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "ae33897c-b900-4dbd-868c-262cd9bdbf3e",
+          "content": "The startup founder delivered a compelling pitch to three venture capital firms last Thursday",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "63217561-e7d1-4fb1-a640-50a5284b8c27",
+          "content": "The first violinist struggled to maintain accurate pitch throughout the concerto's second movement",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "008c0a3e-c9b0-4c10-b196-a56269b8a34f",
+          "content": "Perfect pitch ability allows musicians to identify notes without a reference tone",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "7158ce84-7667-4803-bafe-983e898e5547",
+          "content": "The choir director adjusted the pitch upward by a half step to suit the sopranos' range",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 58.7,
+      "llm_tokens": {
+        "prompt_tokens": 9374,
+        "completion_tokens": 1955,
+        "total_tokens": 11329
+      },
+      "error": null,
+      "notes": "'Entrepreneur' not 'founder', 'fundraising presentation' not 'pitch', 'investment groups' not 'venture capital firms'. Multiple musical tone-sense distractors."
+    },
+    {
+      "case_id": "T1-10",
+      "tier": 1,
+      "category": "polysemy_domain",
+      "title": "Cell: biology vs prison",
+      "query": "What breakthrough was achieved in the laboratory's tissue repair studies?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "549ea250-bb5f-4cdf-bd84-06f64150351c",
+          "6a37ce6d-d723-453c-9d06-5cbaa65d2fee",
+          "d3390934-819e-4320-8340-c515443c79b6"
+        ],
+        "result_contents": [
+          "The research team identified a novel stem cell variant capable of regenerating damaged nerve tissue",
+          "The holding cell detention area was renovated to meet modern safety standards",
+          "Prison overcrowding resulted in two inmates sharing a single cell designed for one occupant"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5496714115142822,
+          0.7681726217269897,
+          0.8948444128036499
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "549ea250-bb5f-4cdf-bd84-06f64150351c",
+          "6a37ce6d-d723-453c-9d06-5cbaa65d2fee",
+          "f05c6c7d-0fb7-4c22-a213-4d8f47aa4a47"
+        ],
+        "result_contents": [
+          "The research team identified a novel stem cell variant capable of regenerating damaged nerve tissue",
+          "The holding cell detention area was renovated to meet modern safety standards",
+          "The inmate was transferred to an isolation cell following the altercation in the exercise yard"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5496714115142822,
+          0.7681726217269897,
+          0.7681726217269897
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "549ea250-bb5f-4cdf-bd84-06f64150351c",
+          "content": "The research team identified a novel stem cell variant capable of regenerating damaged nerve tissue",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "f05c6c7d-0fb7-4c22-a213-4d8f47aa4a47",
+          "content": "The inmate was transferred to an isolation cell following the altercation in the exercise yard",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "d3390934-819e-4320-8340-c515443c79b6",
+          "content": "Prison overcrowding resulted in two inmates sharing a single cell designed for one occupant",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "6a37ce6d-d723-453c-9d06-5cbaa65d2fee",
+          "content": "The holding cell detention area was renovated to meet modern safety standards",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 59.14,
+      "llm_tokens": {
+        "prompt_tokens": 9176,
+        "completion_tokens": 1816,
+        "total_tokens": 10992
+      },
+      "error": null,
+      "notes": "'Laboratory' not 'research team', 'tissue repair studies' not 'stem cell' or 'regenerating nerve tissue'. Multiple prison-sense distractors."
+    },
+    {
+      "case_id": "T1-11",
+      "tier": 1,
+      "category": "metonymy",
+      "title": "The White House: administration vs building",
+      "query": "What environmental regulations did the US presidential administration enact?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "7c68f297-1c3e-4e05-9f45-84dab1163501",
+          "b16f86ee-4769-40b7-bf52-7b9c26f89fc5",
+          "9e0c2624-3530-492c-a3bf-a28e23005ee7"
+        ],
+        "result_contents": [
+          "The White House announced sweeping new executive orders on climate and emissions policy",
+          "The White House underwent major renovations during the Truman administration to stabilize its structure",
+          "The White House was originally built with Aquia Creek sandstone and first painted white in 1818"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5216761827468872,
+          0.736670196056366,
+          0.765959620475769
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "7c68f297-1c3e-4e05-9f45-84dab1163501",
+          "b16f86ee-4769-40b7-bf52-7b9c26f89fc5",
+          "9e0c2624-3530-492c-a3bf-a28e23005ee7"
+        ],
+        "result_contents": [
+          "The White House announced sweeping new executive orders on climate and emissions policy",
+          "The White House underwent major renovations during the Truman administration to stabilize its structure",
+          "The White House was originally built with Aquia Creek sandstone and first painted white in 1818"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5216761827468872,
+          0.736670196056366,
+          0.765959620475769
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "7c68f297-1c3e-4e05-9f45-84dab1163501",
+          "content": "The White House announced sweeping new executive orders on climate and emissions policy",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "9e0c2624-3530-492c-a3bf-a28e23005ee7",
+          "content": "The White House was originally built with Aquia Creek sandstone and first painted white in 1818",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "b16f86ee-4769-40b7-bf52-7b9c26f89fc5",
+          "content": "The White House underwent major renovations during the Truman administration to stabilize its structure",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "a8887567-210e-49ef-b9a8-75d5492a55f6",
+          "content": "White House tours are now available by advance reservation through congressional offices",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 52.17,
+      "llm_tokens": {
+        "prompt_tokens": 9320,
+        "completion_tokens": 1716,
+        "total_tokens": 11036
+      },
+      "error": null,
+      "notes": "'US presidential administration' not 'White House', 'environmental regulations' not 'climate policy' or 'executive orders'. Multiple building-sense distractors, with 'administration' appearing in historical context."
+    },
+    {
+      "case_id": "T1-12",
+      "tier": 1,
+      "category": "metonymy",
+      "title": "Hollywood: film industry vs neighborhood",
+      "query": "How is the American motion picture industry integrating new computational tools into post-production?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "cf9d37da-b130-4e88-8296-3a3da1791c49",
+          "3faebd70-ee6b-4536-833f-ebf05c10f57e",
+          "7917ac24-3b67-4e47-b738-ea9433596064"
+        ],
+        "result_contents": [
+          "Hollywood studios are investing heavily in generative AI for visual effects pipelines",
+          "Traffic congestion in Hollywood reached record levels during the recent film festival",
+          "The Hollywood Walk of Fame added twelve new stars honoring entertainment industry pioneers"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.47192680835723877,
+          0.7982063293457031,
+          0.803782045841217
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "cf9d37da-b130-4e88-8296-3a3da1791c49",
+          "3faebd70-ee6b-4536-833f-ebf05c10f57e",
+          "259e3a17-e0f3-4f70-bdf3-d148a54c2f3e"
+        ],
+        "result_contents": [
+          "Hollywood studios are investing heavily in generative AI for visual effects pipelines",
+          "Traffic congestion in Hollywood reached record levels during the recent film festival",
+          "Residential property values in the Hollywood neighborhood climbed 15% year over year"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.47192680835723877,
+          0.7982063293457031,
+          0.7982063293457031
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "cf9d37da-b130-4e88-8296-3a3da1791c49",
+          "content": "Hollywood studios are investing heavily in generative AI for visual effects pipelines",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "259e3a17-e0f3-4f70-bdf3-d148a54c2f3e",
+          "content": "Residential property values in the Hollywood neighborhood climbed 15% year over year",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "7917ac24-3b67-4e47-b738-ea9433596064",
+          "content": "The Hollywood Walk of Fame added twelve new stars honoring entertainment industry pioneers",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "3faebd70-ee6b-4536-833f-ebf05c10f57e",
+          "content": "Traffic congestion in Hollywood reached record levels during the recent film festival",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 52.64,
+      "llm_tokens": {
+        "prompt_tokens": 9310,
+        "completion_tokens": 1833,
+        "total_tokens": 11143
+      },
+      "error": null,
+      "notes": "'Motion picture industry' not 'Hollywood', 'computational tools' not 'AI', 'post-production' not 'visual effects'. Distractors mix geographic location with entertainment references (Walk of Fame, festival)."
+    },
+    {
+      "case_id": "T1-13",
+      "tier": 1,
+      "category": "metonymy",
+      "title": "Wall Street: financial sector vs subway station",
+      "query": "What did the equity research community say about the recent performance of tech companies?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "98915743-561a-4bb5-b72d-326894a4324b",
+          "bbec7ec8-1d13-4a00-a57e-dbb61a22e7d7",
+          "65dd2fa1-99e1-4d48-afc9-25ff191b75ea"
+        ],
+        "result_contents": [
+          "Wall Street analysts downgraded the technology sector following disappointing quarterly earnings",
+          "Wall Street's historic cobblestone pavement will be preserved during upcoming infrastructure upgrades",
+          "The Wall Street subway station is undergoing extensive renovation for ADA accessibility"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5140687227249146,
+          0.8645627498626709,
+          0.8665229678153992
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "98915743-561a-4bb5-b72d-326894a4324b",
+          "bbec7ec8-1d13-4a00-a57e-dbb61a22e7d7",
+          "65dd2fa1-99e1-4d48-afc9-25ff191b75ea"
+        ],
+        "result_contents": [
+          "Wall Street analysts downgraded the technology sector following disappointing quarterly earnings",
+          "Wall Street's historic cobblestone pavement will be preserved during upcoming infrastructure upgrades",
+          "The Wall Street subway station is undergoing extensive renovation for ADA accessibility"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5140687227249146,
+          0.8645627498626709,
+          0.8665229678153992
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "98915743-561a-4bb5-b72d-326894a4324b",
+          "content": "Wall Street analysts downgraded the technology sector following disappointing quarterly earnings",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "65dd2fa1-99e1-4d48-afc9-25ff191b75ea",
+          "content": "The Wall Street subway station is undergoing extensive renovation for ADA accessibility",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "bbec7ec8-1d13-4a00-a57e-dbb61a22e7d7",
+          "content": "Wall Street's historic cobblestone pavement will be preserved during upcoming infrastructure upgrades",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "c67e7475-e4e5-46ef-8b23-56f3bce548db",
+          "content": "Tourist foot traffic on Wall Street increased significantly following the opening of new museums",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 55.37,
+      "llm_tokens": {
+        "prompt_tokens": 9341,
+        "completion_tokens": 1714,
+        "total_tokens": 11055
+      },
+      "error": null,
+      "notes": "'Equity research community' not 'analysts', 'tech companies' not 'technology sector'. Multiple geographic location distractors."
+    },
+    {
+      "case_id": "T1-14",
+      "tier": 1,
+      "category": "metonymy",
+      "title": "Silicon Valley: tech ecosystem vs geographic valley",
+      "query": "How much private equity flowed into the Bay Area technology entrepreneurship scene last quarter?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "14430c64-7c75-46e6-892c-f40dd0a3a7fe",
+          "1958aaeb-e269-41b3-94da-1a61667cf9ab",
+          "944e2594-cd02-4e2f-8208-34eeefdf721b"
+        ],
+        "result_contents": [
+          "Silicon Valley startups collectively raised $48 billion in venture funding during Q3",
+          "Valley floor irrigation systems transformed agricultural production in the Santa Clara region",
+          "The Santa Clara Valley was once the largest fruit-producing region on the West Coast"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.4856145977973938,
+          0.8211240768432617,
+          0.8225892782211304
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "14430c64-7c75-46e6-892c-f40dd0a3a7fe",
+          "1958aaeb-e269-41b3-94da-1a61667cf9ab",
+          "944e2594-cd02-4e2f-8208-34eeefdf721b"
+        ],
+        "result_contents": [
+          "Silicon Valley startups collectively raised $48 billion in venture funding during Q3",
+          "Valley floor irrigation systems transformed agricultural production in the Santa Clara region",
+          "The Santa Clara Valley was once the largest fruit-producing region on the West Coast"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.4856145977973938,
+          0.8211240768432617,
+          0.8225892782211304
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "14430c64-7c75-46e6-892c-f40dd0a3a7fe",
+          "content": "Silicon Valley startups collectively raised $48 billion in venture funding during Q3",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "944e2594-cd02-4e2f-8208-34eeefdf721b",
+          "content": "The Santa Clara Valley was once the largest fruit-producing region on the West Coast",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "1958aaeb-e269-41b3-94da-1a61667cf9ab",
+          "content": "Valley floor irrigation systems transformed agricultural production in the Santa Clara region",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "e5d1f29e-eeab-47d6-8bfd-6971ce547698",
+          "content": "The valley's temperate climate supported diverse crops before suburban development",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 54.34,
+      "llm_tokens": {
+        "prompt_tokens": 9375,
+        "completion_tokens": 1735,
+        "total_tokens": 11110
+      },
+      "error": null,
+      "notes": "'Private equity' not 'venture funding', 'Bay Area technology entrepreneurship scene' not 'Silicon Valley startups'. Multiple geographic valley/agriculture-sense distractors."
+    },
+    {
+      "case_id": "T1-15",
+      "tier": 1,
+      "category": "metonymy",
+      "title": "Crown: sovereign authority vs jeweled headpiece",
+      "query": "What clemency action did the British sovereign authority grant regarding the outdated law?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "c53b1b04-3836-4870-9aa2-a49bfa5e4fe7",
+          "56994902-cace-49c8-bcb2-137d6cec2ce9",
+          "b1088482-ce14-4545-8adc-53cb8844d2f6"
+        ],
+        "result_contents": [
+          "The Crown issued a formal pardon for all individuals convicted under the repealed statute",
+          "The jewel-encrusted crown on display at the Tower of London weighs nearly five pounds",
+          "The coronation crown was specially fitted with velvet lining for the upcoming ceremony"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5699188709259033,
+          0.8970328569412231,
+          0.9144083261489868
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "c53b1b04-3836-4870-9aa2-a49bfa5e4fe7",
+          "56994902-cace-49c8-bcb2-137d6cec2ce9",
+          "b1088482-ce14-4545-8adc-53cb8844d2f6"
+        ],
+        "result_contents": [
+          "The Crown issued a formal pardon for all individuals convicted under the repealed statute",
+          "The jewel-encrusted crown on display at the Tower of London weighs nearly five pounds",
+          "The coronation crown was specially fitted with velvet lining for the upcoming ceremony"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5699188709259033,
+          0.8970328569412231,
+          0.9144083261489868
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "c53b1b04-3836-4870-9aa2-a49bfa5e4fe7",
+          "content": "The Crown issued a formal pardon for all individuals convicted under the repealed statute",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "56994902-cace-49c8-bcb2-137d6cec2ce9",
+          "content": "The jewel-encrusted crown on display at the Tower of London weighs nearly five pounds",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "b1088482-ce14-4545-8adc-53cb8844d2f6",
+          "content": "The coronation crown was specially fitted with velvet lining for the upcoming ceremony",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "d8e92f92-36a8-4082-aa23-880d284547a7",
+          "content": "Replicas of the crown jewels are sold at the museum gift shop for tourists",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 58.12,
+      "llm_tokens": {
+        "prompt_tokens": 9480,
+        "completion_tokens": 1985,
+        "total_tokens": 11465
+      },
+      "error": null,
+      "notes": "'Sovereign authority' not 'Crown', 'clemency' not 'pardon', 'outdated law' not 'repealed statute'. Multiple jeweled headpiece-sense distractors."
+    },
+    {
+      "case_id": "T2-01",
+      "tier": 2,
+      "category": "relative_to_absolute",
+      "title": "Tomorrow morning -> today (next-day query)",
+      "query": "Is there a team sync happening today?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "3762628a-1af2-43fa-81e3-e039929d600b",
+          "e43006aa-d8ad-4c76-8edd-d3c8424dc4b0",
+          "43bc36ff-08dd-4db1-8a99-9825fae0ef4f"
+        ],
+        "result_contents": [
+          "Team sync was cancelled this morning due to the all-hands meeting conflict",
+          "Team sync ran long last week and we skipped the retrospective",
+          "Team sync yesterday covered the sprint planning and capacity allocation"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.3726247549057007,
+          0.4458329677581787,
+          0.4561340808868408
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "3762628a-1af2-43fa-81e3-e039929d600b",
+          "2c74dc11-cf94-4c4a-a4f2-3944c10838f1",
+          "e43006aa-d8ad-4c76-8edd-d3c8424dc4b0"
+        ],
+        "result_contents": [
+          "Team sync was cancelled this morning due to the all-hands meeting conflict",
+          "Team sync rescheduled to tomorrow morning at nine",
+          "Team sync ran long last week and we skipped the retrospective"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.3726247549057007,
+          0.3726247549057007,
+          0.4458329677581787
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "2c74dc11-cf94-4c4a-a4f2-3944c10838f1",
+          "content": "Team sync rescheduled to tomorrow morning at nine",
+          "role": "target",
+          "timestamp": "202603100800"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "e43006aa-d8ad-4c76-8edd-d3c8424dc4b0",
+          "content": "Team sync ran long last week and we skipped the retrospective",
+          "role": "distractor",
+          "timestamp": "202603100800"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "43bc36ff-08dd-4db1-8a99-9825fae0ef4f",
+          "content": "Team sync yesterday covered the sprint planning and capacity allocation",
+          "role": "distractor",
+          "timestamp": "202603100800"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "e1c5c0dd-b18b-48d1-ab8f-7a6e8ee13469",
+          "content": "Team sync next week will include the new Q2 roadmap review",
+          "role": "distractor",
+          "timestamp": "202603100800"
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "3762628a-1af2-43fa-81e3-e039929d600b",
+          "content": "Team sync was cancelled this morning due to the all-hands meeting conflict",
+          "role": "distractor",
+          "timestamp": "202603100800"
+        }
+      ],
+      "duration_seconds": 61.25,
+      "llm_tokens": {
+        "prompt_tokens": 10077,
+        "completion_tokens": 1886,
+        "total_tokens": 11963
+      },
+      "error": null,
+      "notes": "All memories mention 'team sync'. Distinguishing factor is ONLY temporal: 'tomorrow' from Mar 10 = Mar 11 = 'today' from query perspective. Distractors span past (last week, yesterday, this morning) and future (next week)."
+    },
+    {
+      "case_id": "T2-02",
+      "tier": 2,
+      "category": "relative_to_absolute",
+      "title": "Next Wednesday -> this week (query one week later)",
+      "query": "Are there any client sessions this week?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "5403f686-c639-46bc-a563-fafa9398fc9e",
+          "ca931efc-81d9-447a-96eb-ed7bc8657000",
+          "207cb84f-dc24-4417-bd75-17d644b067f4"
+        ],
+        "result_contents": [
+          "Client walkthrough last Wednesday went well and they approved moving to the next phase",
+          "Client walkthrough of the prototype pushed to next Wednesday afternoon",
+          "Client walkthrough scheduled for late March will include the full feature set demonstration"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5643733739852905,
+          0.5887762904167175,
+          0.6313974261283875
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "5403f686-c639-46bc-a563-fafa9398fc9e",
+          "ca931efc-81d9-447a-96eb-ed7bc8657000",
+          "207cb84f-dc24-4417-bd75-17d644b067f4"
+        ],
+        "result_contents": [
+          "Client walkthrough last Wednesday went well and they approved moving to the next phase",
+          "Client walkthrough of the prototype pushed to next Wednesday afternoon",
+          "Client walkthrough scheduled for late March will include the full feature set demonstration"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5643733739852905,
+          0.5887762904167175,
+          0.6313974261283875
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "ca931efc-81d9-447a-96eb-ed7bc8657000",
+          "content": "Client walkthrough of the prototype pushed to next Wednesday afternoon",
+          "role": "target",
+          "timestamp": "202603030900"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "49b3e50d-683e-4812-8a06-296737a3f7dc",
+          "content": "Client walkthrough in February covered the wireframes and got positive feedback",
+          "role": "distractor",
+          "timestamp": "202603030900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "5403f686-c639-46bc-a563-fafa9398fc9e",
+          "content": "Client walkthrough last Wednesday went well and they approved moving to the next phase",
+          "role": "distractor",
+          "timestamp": "202603030900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "207cb84f-dc24-4417-bd75-17d644b067f4",
+          "content": "Client walkthrough scheduled for late March will include the full feature set demonstration",
+          "role": "distractor",
+          "timestamp": "202603030900"
+        }
+      ],
+      "duration_seconds": 58.25,
+      "llm_tokens": {
+        "prompt_tokens": 9461,
+        "completion_tokens": 2004,
+        "total_tokens": 11465
+      },
+      "error": null,
+      "notes": "'Next Wednesday' from Mar 3 = Mar 10 = 'this week' from query. All memories mention 'client walkthrough'. Distractors reference different times (February, last Wednesday, late March)."
+    },
+    {
+      "case_id": "T2-03",
+      "tier": 2,
+      "category": "relative_to_absolute",
+      "title": "Tonight -> last night (next-morning query)",
+      "query": "Were any of our services intentionally brought down last night?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "2fc21ff7-758c-48f3-a99b-0a4f8e19055e",
+          "8642b736-6a50-4fcd-8570-1732ae36ac5a",
+          "39acda6a-fced-4eb4-8bf3-59ab2342c808"
+        ],
+        "result_contents": [
+          "Authentication services had a brief hiccup two weeks ago but self-recovered",
+          "Authentication services experienced elevated latency three days ago during peak traffic",
+          "Authentication services will undergo scheduled maintenance next weekend for security patches"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6816807389259338,
+          0.7131665945053101,
+          0.7304394841194153
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "2fc21ff7-758c-48f3-a99b-0a4f8e19055e",
+          "20ba90f3-0470-4a56-b8c0-cbfb91c5676e",
+          "8642b736-6a50-4fcd-8570-1732ae36ac5a"
+        ],
+        "result_contents": [
+          "Authentication services had a brief hiccup two weeks ago but self-recovered",
+          "Ops team taking the authentication services offline tonight from eleven to three",
+          "Authentication services experienced elevated latency three days ago during peak traffic"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6816807389259338,
+          0.6816807389259338,
+          0.7131665945053101
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "20ba90f3-0470-4a56-b8c0-cbfb91c5676e",
+          "content": "Ops team taking the authentication services offline tonight from eleven to three",
+          "role": "target",
+          "timestamp": "202603101800"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "2fc21ff7-758c-48f3-a99b-0a4f8e19055e",
+          "content": "Authentication services had a brief hiccup two weeks ago but self-recovered",
+          "role": "distractor",
+          "timestamp": "202603101800"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "39acda6a-fced-4eb4-8bf3-59ab2342c808",
+          "content": "Authentication services will undergo scheduled maintenance next weekend for security patches",
+          "role": "distractor",
+          "timestamp": "202603101800"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "8642b736-6a50-4fcd-8570-1732ae36ac5a",
+          "content": "Authentication services experienced elevated latency three days ago during peak traffic",
+          "role": "distractor",
+          "timestamp": "202603101800"
+        }
+      ],
+      "duration_seconds": 56.95,
+      "llm_tokens": {
+        "prompt_tokens": 9213,
+        "completion_tokens": 1763,
+        "total_tokens": 10976
+      },
+      "error": null,
+      "notes": "'Tonight' from Mar 10 evening = 'last night' from Mar 11 morning. All mention 'authentication services'. Distractors span past incidents (two weeks ago, three days ago) and future maintenance (next weekend)."
+    },
+    {
+      "case_id": "T2-04",
+      "tier": 2,
+      "category": "relative_to_absolute",
+      "title": "In two days -> today (query two days later)",
+      "query": "Any executive meetings on the calendar for today?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "64d0d551-10a3-4b9a-90bb-68ff6126ffff",
+          "4a4ccead-eda2-4a9a-a2f1-9cfc4d6de858",
+          "2524aff7-265e-40a6-a3be-9f1442658042"
+        ],
+        "result_contents": [
+          "Board review scheduled for next Tuesday will cover the annual strategy proposals",
+          "Board review session happens in two days at 2pm sharp",
+          "Board review from last month concluded with full budget approval"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6750082969665527,
+          0.7558954358100891,
+          0.7724273204803467
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "64d0d551-10a3-4b9a-90bb-68ff6126ffff",
+          "4a4ccead-eda2-4a9a-a2f1-9cfc4d6de858",
+          "2524aff7-265e-40a6-a3be-9f1442658042"
+        ],
+        "result_contents": [
+          "Board review scheduled for next Tuesday will cover the annual strategy proposals",
+          "Board review session happens in two days at 2pm sharp",
+          "Board review from last month concluded with full budget approval"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6750082969665527,
+          0.7558954358100891,
+          0.7724273204803467
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "4a4ccead-eda2-4a9a-a2f1-9cfc4d6de858",
+          "content": "Board review session happens in two days at 2pm sharp",
+          "role": "target",
+          "timestamp": "202603080900"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "2524aff7-265e-40a6-a3be-9f1442658042",
+          "content": "Board review from last month concluded with full budget approval",
+          "role": "distractor",
+          "timestamp": "202603080900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "64d0d551-10a3-4b9a-90bb-68ff6126ffff",
+          "content": "Board review scheduled for next Tuesday will cover the annual strategy proposals",
+          "role": "distractor",
+          "timestamp": "202603080900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "d467ad52-3922-43f1-8cce-c8257375f429",
+          "content": "Board review yesterday focused exclusively on risk management and compliance issues",
+          "role": "distractor",
+          "timestamp": "202603080900"
+        }
+      ],
+      "duration_seconds": 53.3,
+      "llm_tokens": {
+        "prompt_tokens": 9030,
+        "completion_tokens": 1955,
+        "total_tokens": 10985
+      },
+      "error": null,
+      "notes": "'In two days' from Mar 8 = Mar 10 = 'today' from query. All mention 'board review'. Distractors: past (last month, yesterday), future (next Tuesday)."
+    },
+    {
+      "case_id": "T2-05",
+      "tier": 2,
+      "category": "relative_to_absolute",
+      "title": "In five days -> tomorrow (query four days later)",
+      "query": "Is there a signup cutoff approaching tomorrow?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "389ff6b8-e76b-412e-8a65-1fe1f0539ace",
+          "9cad1d83-c641-408b-9593-2d4ce9169b98",
+          "985ae83c-5bb2-4adc-a825-7dfe8c3633f8"
+        ],
+        "result_contents": [
+          "Conference registration fees increase after the first two hundred attendees sign up",
+          "Conference registration is expected to sell out well before the event date in April",
+          "Conference registration opened with early bird pricing three weeks ago"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.7114400267601013,
+          0.7165299654006958,
+          0.717553973197937
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "389ff6b8-e76b-412e-8a65-1fe1f0539ace",
+          "d11c346c-3a60-4ba8-bae1-62043586778b",
+          "9cad1d83-c641-408b-9593-2d4ce9169b98"
+        ],
+        "result_contents": [
+          "Conference registration fees increase after the first two hundred attendees sign up",
+          "Conference registration window closes in five days",
+          "Conference registration is expected to sell out well before the event date in April"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.7114400267601013,
+          0.7114400267601013,
+          0.7165299654006958
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "d11c346c-3a60-4ba8-bae1-62043586778b",
+          "content": "Conference registration window closes in five days",
+          "role": "target",
+          "timestamp": "202603050900"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "985ae83c-5bb2-4adc-a825-7dfe8c3633f8",
+          "content": "Conference registration opened with early bird pricing three weeks ago",
+          "role": "distractor",
+          "timestamp": "202603050900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "389ff6b8-e76b-412e-8a65-1fe1f0539ace",
+          "content": "Conference registration fees increase after the first two hundred attendees sign up",
+          "role": "distractor",
+          "timestamp": "202603050900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "9cad1d83-c641-408b-9593-2d4ce9169b98",
+          "content": "Conference registration is expected to sell out well before the event date in April",
+          "role": "distractor",
+          "timestamp": "202603050900"
+        }
+      ],
+      "duration_seconds": 58.31,
+      "llm_tokens": {
+        "prompt_tokens": 9167,
+        "completion_tokens": 1881,
+        "total_tokens": 11048
+      },
+      "error": null,
+      "notes": "'In five days' from Mar 5 = Mar 10 = 'tomorrow' from Mar 9. All about 'conference registration'. Distractors: past opening, capacity-based (not time-based), future prediction."
+    },
+    {
+      "case_id": "T2-06",
+      "tier": 2,
+      "category": "state_conflict",
+      "title": "Framework migration: React -> Svelte",
+      "query": "What UI framework does Project Falcon currently rely on?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "bc7747e3-9c3b-4383-8eb8-d649046072c5",
+          "167f4bcd-15f2-41ca-8c8a-2b915115e22a",
+          "5b72f136-23d4-4d31-aec8-33e3800bf770"
+        ],
+        "result_contents": [
+          "Project Falcon uses React for its frontend framework",
+          "Project Falcon frontend was completely rewritten using Svelte last month",
+          "Project Falcon frontend framework evaluation considered Vue and Svelte as React alternatives"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.36376678943634033,
+          0.41643524169921875,
+          0.43647414445877075
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "bc7747e3-9c3b-4383-8eb8-d649046072c5",
+          "167f4bcd-15f2-41ca-8c8a-2b915115e22a",
+          "a1d8e230-e2e1-4fa4-824d-69aa3bfe5f42"
+        ],
+        "result_contents": [
+          "Project Falcon uses React for its frontend framework",
+          "Project Falcon frontend was completely rewritten using Svelte last month",
+          "Project Falcon began the experimental Svelte migration branch for performance testing"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.36376678943634033,
+          0.41643524169921875,
+          0.41643524169921875
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "bc7747e3-9c3b-4383-8eb8-d649046072c5",
+          "content": "Project Falcon uses React for its frontend framework",
+          "role": "distractor",
+          "timestamp": "202601150900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "5b72f136-23d4-4d31-aec8-33e3800bf770",
+          "content": "Project Falcon frontend framework evaluation considered Vue and Svelte as React alternatives",
+          "role": "distractor",
+          "timestamp": "202602010900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "a1d8e230-e2e1-4fa4-824d-69aa3bfe5f42",
+          "content": "Project Falcon began the experimental Svelte migration branch for performance testing",
+          "role": "distractor",
+          "timestamp": "202602150900"
+        },
+        {
+          "fixture_id": "target",
+          "real_id": "167f4bcd-15f2-41ca-8c8a-2b915115e22a",
+          "content": "Project Falcon frontend was completely rewritten using Svelte last month",
+          "role": "target",
+          "timestamp": "202603010900"
+        }
+      ],
+      "duration_seconds": 60.59,
+      "llm_tokens": {
+        "prompt_tokens": 9669,
+        "completion_tokens": 2232,
+        "total_tokens": 11901
+      },
+      "error": null,
+      "notes": "All memories about Project Falcon's frontend evolution. Timeline: Jan (React) -> Feb (evaluation) -> Feb (experiment) -> Mar (full Svelte migration). System must select the latest state."
+    },
+    {
+      "case_id": "T2-07",
+      "tier": 2,
+      "category": "state_conflict",
+      "title": "Personnel handoff: Sarah -> Marcus",
+      "query": "Who handles our external procurement partnerships right now?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "131de0e4-3d55-4105-a1ba-e48d104b3978",
+          "9c47e9a2-55b6-42c7-998a-3ca83974a720",
+          "e4128ffd-5a8a-4cd3-9055-a4b0b34a26fb"
+        ],
+        "result_contents": [
+          "Marcus has taken over all supplier relationship responsibilities from Sarah",
+          "Sarah and Marcus are collaborating on the vendor management transition plan",
+          "Sarah will continue advising on vendor strategy through the end of the quarter"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.4947972893714905,
+          0.5600422024726868,
+          0.5610729455947876
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "131de0e4-3d55-4105-a1ba-e48d104b3978",
+          "e8fee413-6c7e-48fb-875f-d1d550a83f93",
+          "9c47e9a2-55b6-42c7-998a-3ca83974a720"
+        ],
+        "result_contents": [
+          "Marcus has taken over all supplier relationship responsibilities from Sarah",
+          "Sarah is the point of contact for all vendor negotiations",
+          "Sarah and Marcus are collaborating on the vendor management transition plan"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.4947972893714905,
+          0.4947972893714905,
+          0.5600422024726868
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "e8fee413-6c7e-48fb-875f-d1d550a83f93",
+          "content": "Sarah is the point of contact for all vendor negotiations",
+          "role": "distractor",
+          "timestamp": "202602010900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "9c47e9a2-55b6-42c7-998a-3ca83974a720",
+          "content": "Sarah and Marcus are collaborating on the vendor management transition plan",
+          "role": "distractor",
+          "timestamp": "202602200900"
+        },
+        {
+          "fixture_id": "target",
+          "real_id": "131de0e4-3d55-4105-a1ba-e48d104b3978",
+          "content": "Marcus has taken over all supplier relationship responsibilities from Sarah",
+          "role": "target",
+          "timestamp": "202603050900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "e4128ffd-5a8a-4cd3-9055-a4b0b34a26fb",
+          "content": "Sarah will continue advising on vendor strategy through the end of the quarter",
+          "role": "distractor",
+          "timestamp": "202603050900"
+        }
+      ],
+      "duration_seconds": 57.46,
+      "llm_tokens": {
+        "prompt_tokens": 9378,
+        "completion_tokens": 1919,
+        "total_tokens": 11297
+      },
+      "error": null,
+      "notes": "'Vendor negotiations' vs 'supplier relationships' vs 'procurement partnerships' — all synonyms. Timeline shows handoff: Sarah (Feb) -> transition (late Feb) -> Marcus owns (Mar 5). Distractor_3 has same timestamp as target but mentions advisory role vs ownership."
+    },
+    {
+      "case_id": "T2-08",
+      "tier": 2,
+      "category": "state_conflict",
+      "title": "Meeting room closure override",
+      "query": "Where should I go for the all-hands gathering this week?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.3333333333333333,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "df34cbf8-f013-43ab-be55-a5249612d1dd",
+          "ac7d22a8-5cc9-45fa-b4e2-7b1ec01f99a2",
+          "6c993934-ec0e-4038-a116-ce7681814b5a"
+        ],
+        "result_contents": [
+          "Weekly all-hands meeting is held in Conference Room B on the third floor",
+          "The all-hands meeting agenda typically covers quarterly goals and team updates",
+          "All third floor meeting rooms are closed for renovation through the end of April"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "target"
+        ],
+        "result_scores": [
+          0.4942741394042969,
+          0.6470028162002563,
+          0.6856557726860046
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "df34cbf8-f013-43ab-be55-a5249612d1dd",
+          "ac7d22a8-5cc9-45fa-b4e2-7b1ec01f99a2",
+          "18330eb3-bac0-4aa8-b7c4-ae0538d33ef3"
+        ],
+        "result_contents": [
+          "Weekly all-hands meeting is held in Conference Room B on the third floor",
+          "The all-hands meeting agenda typically covers quarterly goals and team updates",
+          "Conference Room B was upgraded with new video conferencing equipment last month"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.4942741394042969,
+          0.6470028162002563,
+          0.6470028162002563
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "df34cbf8-f013-43ab-be55-a5249612d1dd",
+          "content": "Weekly all-hands meeting is held in Conference Room B on the third floor",
+          "role": "distractor",
+          "timestamp": "202602100900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "18330eb3-bac0-4aa8-b7c4-ae0538d33ef3",
+          "content": "Conference Room B was upgraded with new video conferencing equipment last month",
+          "role": "distractor",
+          "timestamp": "202602200900"
+        },
+        {
+          "fixture_id": "target",
+          "real_id": "6c993934-ec0e-4038-a116-ce7681814b5a",
+          "content": "All third floor meeting rooms are closed for renovation through the end of April",
+          "role": "target",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "ac7d22a8-5cc9-45fa-b4e2-7b1ec01f99a2",
+          "content": "The all-hands meeting agenda typically covers quarterly goals and team updates",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        }
+      ],
+      "duration_seconds": 61.43,
+      "llm_tokens": {
+        "prompt_tokens": 9458,
+        "completion_tokens": 1956,
+        "total_tokens": 11414
+      },
+      "error": null,
+      "notes": "Multiple memories about Conference Room B and all-hands meetings. Latest memory (Mar 1) invalidates the location. Distractors include equipment upgrade and agenda content (same timestamp as target but irrelevant)."
+    },
+    {
+      "case_id": "T2-09",
+      "tier": 2,
+      "category": "state_conflict",
+      "title": "CI/CD migration: Jenkins -> GitHub Actions",
+      "query": "What automation platform handles our build and deployment workflows now?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "9b9b2cea-054f-469f-8a7d-faeb7579cd72",
+          "3a6d4933-3f5a-4899-9330-be46a6056151",
+          "0df9b682-62a3-4e3d-8ebe-9376a2fd1fca"
+        ],
+        "result_contents": [
+          "Continuous integration builds run on the Jenkins server in the datacenter",
+          "All CI/CD pipelines migrated to GitHub Actions effective last week",
+          "The team evaluated GitHub Actions and CircleCI as potential Jenkins replacements"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5527322292327881,
+          0.606419563293457,
+          0.6523884534835815
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "9b9b2cea-054f-469f-8a7d-faeb7579cd72",
+          "3a6d4933-3f5a-4899-9330-be46a6056151",
+          "0df9b682-62a3-4e3d-8ebe-9376a2fd1fca"
+        ],
+        "result_contents": [
+          "Continuous integration builds run on the Jenkins server in the datacenter",
+          "All CI/CD pipelines migrated to GitHub Actions effective last week",
+          "The team evaluated GitHub Actions and CircleCI as potential Jenkins replacements"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5527322292327881,
+          0.606419563293457,
+          0.6523884534835815
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "9b9b2cea-054f-469f-8a7d-faeb7579cd72",
+          "content": "Continuous integration builds run on the Jenkins server in the datacenter",
+          "role": "distractor",
+          "timestamp": "202601200900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "f2cea5a9-abfb-408c-bee2-7efeb6c26e93",
+          "content": "Jenkins pipeline configuration requires Groovy scripting for custom build steps",
+          "role": "distractor",
+          "timestamp": "202602010900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "0df9b682-62a3-4e3d-8ebe-9376a2fd1fca",
+          "content": "The team evaluated GitHub Actions and CircleCI as potential Jenkins replacements",
+          "role": "distractor",
+          "timestamp": "202602150900"
+        },
+        {
+          "fixture_id": "target",
+          "real_id": "3a6d4933-3f5a-4899-9330-be46a6056151",
+          "content": "All CI/CD pipelines migrated to GitHub Actions effective last week",
+          "role": "target",
+          "timestamp": "202603030900"
+        }
+      ],
+      "duration_seconds": 58.27,
+      "llm_tokens": {
+        "prompt_tokens": 9583,
+        "completion_tokens": 2116,
+        "total_tokens": 11699
+      },
+      "error": null,
+      "notes": "'Automation platform' not 'CI/CD'. Timeline: Jan (Jenkins active) -> Feb (Jenkins details) -> Feb (evaluation phase) -> Mar (GitHub Actions migration complete)."
+    },
+    {
+      "case_id": "T2-10",
+      "tier": 2,
+      "category": "state_conflict",
+      "title": "Python deprecation: 3.8 -> 3.11",
+      "query": "What interpreter version do our codebases need to support right now?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "5d01c0c7-f9c4-4063-8033-df2294339ecb",
+          "f219e774-9984-4761-b37e-fc606167e771",
+          "63402dd3-f557-40df-b3b9-46368ef5aea0"
+        ],
+        "result_contents": [
+          "Python 3.11 offers performance improvements over earlier interpreter releases",
+          "All production codebases must be compatible with Python 3.8 or higher",
+          "Python 3.8 remains widely used despite the release of newer versions"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5019304156303406,
+          0.5377445816993713,
+          0.5756524801254272
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "5d01c0c7-f9c4-4063-8033-df2294339ecb",
+          "613345ea-a854-401a-b53c-d8b0be375e5c",
+          "f219e774-9984-4761-b37e-fc606167e771"
+        ],
+        "result_contents": [
+          "Python 3.11 offers performance improvements over earlier interpreter releases",
+          "Python 3.8 and 3.9 support was officially dropped from our projects as of February",
+          "All production codebases must be compatible with Python 3.8 or higher"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5019304156303406,
+          0.5019304156303406,
+          0.5377445816993713
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "f219e774-9984-4761-b37e-fc606167e771",
+          "content": "All production codebases must be compatible with Python 3.8 or higher",
+          "role": "distractor",
+          "timestamp": "202511100900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "63402dd3-f557-40df-b3b9-46368ef5aea0",
+          "content": "Python 3.8 remains widely used despite the release of newer versions",
+          "role": "distractor",
+          "timestamp": "202601150900"
+        },
+        {
+          "fixture_id": "target",
+          "real_id": "613345ea-a854-401a-b53c-d8b0be375e5c",
+          "content": "Python 3.8 and 3.9 support was officially dropped from our projects as of February",
+          "role": "target",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "5d01c0c7-f9c4-4063-8033-df2294339ecb",
+          "content": "Python 3.11 offers performance improvements over earlier interpreter releases",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        }
+      ],
+      "duration_seconds": 55.32,
+      "llm_tokens": {
+        "prompt_tokens": 9237,
+        "completion_tokens": 1769,
+        "total_tokens": 11006
+      },
+      "error": null,
+      "notes": "'Interpreter version' not 'Python version'. Timeline: Nov 2025 (3.8+ required) -> Jan (general 3.8 usage) -> Feb (3.8/3.9 dropped). Distractor_3 same timestamp but discusses benefits not requirements."
+    },
+    {
+      "case_id": "T2-11",
+      "tier": 2,
+      "category": "temporal_arithmetic",
+      "title": "Prerequisite chain: audit before launch date",
+      "query": "What tasks need to wrap up before March 20th?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.5,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 2,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "37d7aea8-43f6-4e1c-ab07-ceff41f5fe9c",
+          "c2e205bf-ee4c-402a-94a0-815aecc8eef8",
+          "3b7add7d-22ec-4487-82d8-5d61c4f4a658"
+        ],
+        "result_contents": [
+          "Product go-live date locked in for March 20th",
+          "Product marketing materials need final approval before the April campaign launch",
+          "The security audit for last quarter's release was completed on schedule in February"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6718241572380066,
+          0.758840024471283,
+          0.7917252779006958
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.6666666666666666,
+        "mrr": 1.0,
+        "targets_found": 2,
+        "targets_total": 2,
+        "distractors_in_results": 1,
+        "result_ids": [
+          "37d7aea8-43f6-4e1c-ab07-ceff41f5fe9c",
+          "5b51fc70-64d6-481d-a1e3-d383c69d0609",
+          "c2e205bf-ee4c-402a-94a0-815aecc8eef8"
+        ],
+        "result_contents": [
+          "Product go-live date locked in for March 20th",
+          "The security audit must be finalized before the product goes live",
+          "Product marketing materials need final approval before the April campaign launch"
+        ],
+        "result_roles": [
+          "target",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6718241572380066,
+          0.6718241572380066,
+          0.758840024471283
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "5b51fc70-64d6-481d-a1e3-d383c69d0609",
+          "content": "The security audit must be finalized before the product goes live",
+          "role": "target",
+          "timestamp": "202603050900"
+        },
+        {
+          "fixture_id": "support",
+          "real_id": "37d7aea8-43f6-4e1c-ab07-ceff41f5fe9c",
+          "content": "Product go-live date locked in for March 20th",
+          "role": "target",
+          "timestamp": "202603050900"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "3b7add7d-22ec-4487-82d8-5d61c4f4a658",
+          "content": "The security audit for last quarter's release was completed on schedule in February",
+          "role": "distractor",
+          "timestamp": "202603050900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "c2e205bf-ee4c-402a-94a0-815aecc8eef8",
+          "content": "Product marketing materials need final approval before the April campaign launch",
+          "role": "distractor",
+          "timestamp": "202603050900"
+        }
+      ],
+      "duration_seconds": 61.46,
+      "llm_tokens": {
+        "prompt_tokens": 9148,
+        "completion_tokens": 1851,
+        "total_tokens": 10999
+      },
+      "error": null,
+      "notes": "Requires linking 'before product goes live' + 'go-live = March 20' to answer 'security audit before March 20'. Distractors: past audit (February), different deadline (April)."
+    },
+    {
+      "case_id": "T2-12",
+      "tier": 2,
+      "category": "temporal_arithmetic",
+      "title": "Quarterly cycle inference",
+      "query": "When is the next regulatory filing obligation?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "78f4eca3-c9ab-4a6c-b501-b8996838e9bf",
+          "4fa387ae-8cee-4c45-a773-99dc3e4cd71b",
+          "edd78ac4-81c6-4913-aab7-bf22a8801f4c"
+        ],
+        "result_contents": [
+          "Financial statements for the previous quarter were submitted ahead of the deadline",
+          "Financial statements are always filed on the last business day of each fiscal quarter",
+          "Annual financial reporting occurs at the end of the fiscal year in December"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6287753582000732,
+          0.6607913374900818,
+          0.7282506227493286
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "78f4eca3-c9ab-4a6c-b501-b8996838e9bf",
+          "4fa387ae-8cee-4c45-a773-99dc3e4cd71b",
+          "edd78ac4-81c6-4913-aab7-bf22a8801f4c"
+        ],
+        "result_contents": [
+          "Financial statements for the previous quarter were submitted ahead of the deadline",
+          "Financial statements are always filed on the last business day of each fiscal quarter",
+          "Annual financial reporting occurs at the end of the fiscal year in December"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6287753582000732,
+          0.6607913374900818,
+          0.7282506227493286
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "4fa387ae-8cee-4c45-a773-99dc3e4cd71b",
+          "content": "Financial statements are always filed on the last business day of each fiscal quarter",
+          "role": "target",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "78f4eca3-c9ab-4a6c-b501-b8996838e9bf",
+          "content": "Financial statements for the previous quarter were submitted ahead of the deadline",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "edd78ac4-81c6-4913-aab7-bf22a8801f4c",
+          "content": "Annual financial reporting occurs at the end of the fiscal year in December",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "377fbbe9-e9b2-4589-9975-76f3fdfe134e",
+          "content": "Monthly financial summaries are distributed to department heads by the fifth business day",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        }
+      ],
+      "duration_seconds": 55.08,
+      "llm_tokens": {
+        "prompt_tokens": 9366,
+        "completion_tokens": 2040,
+        "total_tokens": 11406
+      },
+      "error": null,
+      "notes": "Requires knowing: queried mid-March -> Q1 ends March 31 -> last business day of Q1 is the answer. Distractors: past quarter, annual cycle, monthly cycle."
+    },
+    {
+      "case_id": "T2-13",
+      "tier": 2,
+      "category": "temporal_arithmetic",
+      "title": "Biannual cycle inference",
+      "query": "When is the next round of staff performance assessments?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "c099a028-d197-484d-87a0-71eae2d75b0c",
+          "85b1c49f-2bfc-4ba9-af60-07cf9b5007ea",
+          "dd08b28a-e512-4f2c-a94a-e3f1ccbf492c"
+        ],
+        "result_contents": [
+          "Employee evaluations take place biannually in June and December without exception",
+          "New employee probationary reviews occur quarterly during the first year of employment",
+          "Employee evaluation results from December showed improved satisfaction scores across all departments"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5937846899032593,
+          0.6054255962371826,
+          0.6272374391555786
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "c099a028-d197-484d-87a0-71eae2d75b0c",
+          "85b1c49f-2bfc-4ba9-af60-07cf9b5007ea",
+          "dd08b28a-e512-4f2c-a94a-e3f1ccbf492c"
+        ],
+        "result_contents": [
+          "Employee evaluations take place biannually in June and December without exception",
+          "New employee probationary reviews occur quarterly during the first year of employment",
+          "Employee evaluation results from December showed improved satisfaction scores across all departments"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5937846899032593,
+          0.6054255962371826,
+          0.6272374391555786
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "c099a028-d197-484d-87a0-71eae2d75b0c",
+          "content": "Employee evaluations take place biannually in June and December without exception",
+          "role": "target",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "dd08b28a-e512-4f2c-a94a-e3f1ccbf492c",
+          "content": "Employee evaluation results from December showed improved satisfaction scores across all departments",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "85b1c49f-2bfc-4ba9-af60-07cf9b5007ea",
+          "content": "New employee probationary reviews occur quarterly during the first year of employment",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "38f12eb2-46e4-4899-8de9-9cc10242c30d",
+          "content": "Annual compensation adjustments are typically announced in March following budget approval",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        }
+      ],
+      "duration_seconds": 54.55,
+      "llm_tokens": {
+        "prompt_tokens": 9456,
+        "completion_tokens": 1915,
+        "total_tokens": 11371
+      },
+      "error": null,
+      "notes": "'Staff performance assessments' not 'employee evaluations'. Requires: March query -> next is June. Distractors: past results (December), quarterly cycle (different schedule), annual cycle (compensation not evaluation)."
+    },
+    {
+      "case_id": "T2-14",
+      "tier": 2,
+      "category": "temporal_arithmetic",
+      "title": "Duration-from-date calculation",
+      "query": "Do we need to find alternative office space soon?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.3333333333333333,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "8053d0a5-55ea-43ae-bb3f-8941af213198",
+          "5b26b494-d4c7-4d3b-b45e-ec009e0b8b41",
+          "af099b41-fa5c-485a-8e12-c5b68205d228"
+        ],
+        "result_contents": [
+          "Office space requirements are reviewed annually during strategic planning in January",
+          "The previous office lease was signed for a five-year term in 2019",
+          "The commercial lease expires exactly eighteen months from the signing date of September 2024"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "target"
+        ],
+        "result_scores": [
+          0.46312975883483887,
+          0.6897633075714111,
+          0.845740556716919
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "8053d0a5-55ea-43ae-bb3f-8941af213198",
+          "ee96ad2d-b615-4bc7-a1f5-71e24e7e6631",
+          "5b26b494-d4c7-4d3b-b45e-ec009e0b8b41"
+        ],
+        "result_contents": [
+          "Office space requirements are reviewed annually during strategic planning in January",
+          "Commercial lease negotiations typically begin six months before the current agreement ends",
+          "The previous office lease was signed for a five-year term in 2019"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.46312975883483887,
+          0.46312975883483887,
+          0.6897633075714111
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "af099b41-fa5c-485a-8e12-c5b68205d228",
+          "content": "The commercial lease expires exactly eighteen months from the signing date of September 2024",
+          "role": "target",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "5b26b494-d4c7-4d3b-b45e-ec009e0b8b41",
+          "content": "The previous office lease was signed for a five-year term in 2019",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "ee96ad2d-b615-4bc7-a1f5-71e24e7e6631",
+          "content": "Commercial lease negotiations typically begin six months before the current agreement ends",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "8053d0a5-55ea-43ae-bb3f-8941af213198",
+          "content": "Office space requirements are reviewed annually during strategic planning in January",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        }
+      ],
+      "duration_seconds": 56.03,
+      "llm_tokens": {
+        "prompt_tokens": 9340,
+        "completion_tokens": 2024,
+        "total_tokens": 11364
+      },
+      "error": null,
+      "notes": "Sep 2024 + 18 months = March 2026 = NOW. Distractors: past lease (2019), general advice (6 months before), annual review cycle (January)."
+    },
+    {
+      "case_id": "T2-15",
+      "tier": 2,
+      "category": "temporal_arithmetic",
+      "title": "Multi-memory temporal chain (recurring + last-run)",
+      "query": "When will the storage snapshots run again?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.5,
+        "precision": 0.3333333333333333,
+        "mrr": 0.3333333333333333,
+        "targets_found": 1,
+        "targets_total": 2,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "79298cfe-835a-4c5e-88c6-a965a5947892",
+          "a0ca98f4-be41-43d8-b6bd-d4425b95d29d",
+          "a22bb692-ea04-405f-90aa-22bdb6ea33bd"
+        ],
+        "result_contents": [
+          "The backup system was upgraded last month to improve storage efficiency",
+          "Database backups run nightly at 2am with a 24-hour retention policy",
+          "The latest backup run completed without errors on Wednesday at midnight"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "target"
+        ],
+        "result_scores": [
+          0.5244792699813843,
+          0.5674768686294556,
+          0.6087443232536316
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.5,
+        "precision": 0.3333333333333333,
+        "mrr": 0.3333333333333333,
+        "targets_found": 1,
+        "targets_total": 2,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "79298cfe-835a-4c5e-88c6-a965a5947892",
+          "a0ca98f4-be41-43d8-b6bd-d4425b95d29d",
+          "fe9bbbd9-17a0-4add-95a6-666d84cb4e04"
+        ],
+        "result_contents": [
+          "The backup system was upgraded last month to improve storage efficiency",
+          "Database backups run nightly at 2am with a 24-hour retention policy",
+          "Automated backups execute on a 72-hour cycle starting from midnight each Sunday"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "target"
+        ],
+        "result_scores": [
+          0.5244792699813843,
+          0.5674768686294556,
+          0.5674768686294556
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "fe9bbbd9-17a0-4add-95a6-666d84cb4e04",
+          "content": "Automated backups execute on a 72-hour cycle starting from midnight each Sunday",
+          "role": "target",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "support",
+          "real_id": "a22bb692-ea04-405f-90aa-22bdb6ea33bd",
+          "content": "The latest backup run completed without errors on Wednesday at midnight",
+          "role": "target",
+          "timestamp": "202603041200"
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "a0ca98f4-be41-43d8-b6bd-d4425b95d29d",
+          "content": "Database backups run nightly at 2am with a 24-hour retention policy",
+          "role": "distractor",
+          "timestamp": "202603010900"
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "79298cfe-835a-4c5e-88c6-a965a5947892",
+          "content": "The backup system was upgraded last month to improve storage efficiency",
+          "role": "distractor",
+          "timestamp": "202603041200"
+        }
+      ],
+      "duration_seconds": 57.52,
+      "llm_tokens": {
+        "prompt_tokens": 9245,
+        "completion_tokens": 1787,
+        "total_tokens": 11032
+      },
+      "error": null,
+      "notes": "'Storage snapshots' not 'backups'. Requires: last ran Wed midnight + 72h = Sat midnight. Distractors: different backup schedule (nightly 24h), upgrade info (not schedule)."
+    },
+    {
+      "case_id": "T3-01",
+      "tier": 3,
+      "category": "chain_2hop",
+      "title": "Person -> division -> project",
+      "query": "Who is accountable for the shift to cloud services?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.5,
+        "precision": 0.3333333333333333,
+        "mrr": 0.3333333333333333,
+        "targets_found": 1,
+        "targets_total": 2,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "837f0d8f-ce1c-4c13-87bb-f414d01ed73c",
+          "6fcb14e7-2ed6-44e3-a1fc-2b16cf3316c4",
+          "92cae0ba-ba2b-421b-b3ea-04831e9e38f7"
+        ],
+        "result_contents": [
+          "Cloud migration initiatives typically involve renegotiating vendor contracts and retraining staff",
+          "The cloud migration initiative was originally proposed by the CTO in the annual strategy meeting",
+          "The infrastructure division owns the cloud migration initiative end-to-end"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "target"
+        ],
+        "result_scores": [
+          0.4642394781112671,
+          0.5219323635101318,
+          0.5219795107841492
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.5,
+        "precision": 0.3333333333333333,
+        "mrr": 0.3333333333333333,
+        "targets_found": 1,
+        "targets_total": 2,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "837f0d8f-ce1c-4c13-87bb-f414d01ed73c",
+          "6fcb14e7-2ed6-44e3-a1fc-2b16cf3316c4",
+          "92cae0ba-ba2b-421b-b3ea-04831e9e38f7"
+        ],
+        "result_contents": [
+          "Cloud migration initiatives typically involve renegotiating vendor contracts and retraining staff",
+          "The cloud migration initiative was originally proposed by the CTO in the annual strategy meeting",
+          "The infrastructure division owns the cloud migration initiative end-to-end"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "target"
+        ],
+        "result_scores": [
+          0.4642394781112671,
+          0.5219323635101318,
+          0.5219795107841492
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "hop1",
+          "real_id": "0c9cc9ed-35aa-494f-b597-7bcd9516326e",
+          "content": "Elena was promoted to lead the infrastructure division last quarter",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "hop2",
+          "real_id": "92cae0ba-ba2b-421b-b3ea-04831e9e38f7",
+          "content": "The infrastructure division owns the cloud migration initiative end-to-end",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "5fbfd8a3-de98-41ee-8ea7-3b0785377981",
+          "content": "Elena previously managed the platform engineering team before her recent promotion",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "6fcb14e7-2ed6-44e3-a1fc-2b16cf3316c4",
+          "content": "The cloud migration initiative was originally proposed by the CTO in the annual strategy meeting",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "7cbc045d-99da-4984-81ef-7c8b359179e2",
+          "content": "The infrastructure division recently completed the datacenter consolidation project ahead of schedule",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "ebedafa9-92ed-40d9-a9dd-b7d696e63b3b",
+          "content": "The infrastructure division manages a team of forty engineers across platform, networking, and security",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "b14befa6-39f1-46fa-a239-c4bf6c0d3e7a",
+          "content": "Elena presented the division quarterly roadmap to senior leadership last week",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "837f0d8f-ce1c-4c13-87bb-f414d01ed73c",
+          "content": "Cloud migration initiatives typically involve renegotiating vendor contracts and retraining staff",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 75.45,
+      "llm_tokens": {
+        "prompt_tokens": 13549,
+        "completion_tokens": 3122,
+        "total_tokens": 16671
+      },
+      "error": null,
+      "notes": "'Accountable' not 'lead/owns', 'shift to cloud services' not 'cloud migration initiative'. Requires: Elena -> infra division -> cloud migration. Distractors break the chain at different points: Elena's past role, cloud initiative origin, infra's other projects."
+    },
+    {
+      "case_id": "T3-02",
+      "tier": 3,
+      "category": "chain_2hop",
+      "title": "Factory halt -> supply dependency -> delivery delay",
+      "query": "Why might our Q2 customer deliveries fall behind schedule?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 2,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "4b3ee035-05e3-4954-bd14-e1a81edbeb09",
+          "23eb7a51-f6f4-4cfe-a8e7-324df17fa854",
+          "81355442-cb4a-42fb-8227-4587bdf7ef25"
+        ],
+        "result_contents": [
+          "Q2 delivery commitments were confirmed with customers three months in advance",
+          "First-quarter customer deliveries exceeded projections by fifteen percent",
+          "Component shortages in the semiconductor industry have impacted manufacturers globally this year"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.40965068340301514,
+          0.4566829204559326,
+          0.645522952079773
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.5,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 2,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "4b3ee035-05e3-4954-bd14-e1a81edbeb09",
+          "13d8a370-de9f-42ab-8f28-89c3aeb8197c",
+          "ebcc2a87-9701-4bbe-9372-fd6ea4a29bb2"
+        ],
+        "result_contents": [
+          "Q2 delivery commitments were confirmed with customers three months in advance",
+          "All second-quarter product shipments depend entirely on output from the Shenzhen facility",
+          "The Shenzhen facility supplies components to six product lines across three regional markets"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.40965068340301514,
+          0.40965068340301514,
+          0.40965068340301514
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "hop1",
+          "real_id": "63b6552b-5c99-448e-8585-eab2b1b4053d",
+          "content": "The Shenzhen facility halted assembly lines due to a critical component shortage",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "hop2",
+          "real_id": "13d8a370-de9f-42ab-8f28-89c3aeb8197c",
+          "content": "All second-quarter product shipments depend entirely on output from the Shenzhen facility",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "ca577a3b-8cd4-4504-9d55-d1cea8f14081",
+          "content": "The Shenzhen facility achieved record production efficiency last quarter with zero defects",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "23eb7a51-f6f4-4cfe-a8e7-324df17fa854",
+          "content": "First-quarter customer deliveries exceeded projections by fifteen percent",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "cab81dc4-1f67-4f2f-aaf6-4bb8c15d7690",
+          "content": "Component suppliers in Vietnam are expanding capacity to meet growing demand",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "ebcc2a87-9701-4bbe-9372-fd6ea4a29bb2",
+          "content": "The Shenzhen facility supplies components to six product lines across three regional markets",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "4b3ee035-05e3-4954-bd14-e1a81edbeb09",
+          "content": "Q2 delivery commitments were confirmed with customers three months in advance",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "81355442-cb4a-42fb-8227-4587bdf7ef25",
+          "content": "Component shortages in the semiconductor industry have impacted manufacturers globally this year",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 75.59,
+      "llm_tokens": {
+        "prompt_tokens": 13445,
+        "completion_tokens": 2656,
+        "total_tokens": 16101
+      },
+      "error": null,
+      "notes": "'Customer deliveries fall behind schedule' not 'shipments' or 'halted'. Requires chaining: shortage -> halt -> dependency -> delay. Distractors: past success (last quarter), different quarter (Q1), different supplier (Vietnam not Shenzhen)."
+    },
+    {
+      "case_id": "T3-03",
+      "tier": 3,
+      "category": "chain_2hop",
+      "title": "Policy -> affected group -> individual",
+      "query": "How often does David need to show up at the office?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.6666666666666666,
+        "mrr": 0.5,
+        "targets_found": 2,
+        "targets_total": 2,
+        "distractors_in_results": 1,
+        "result_ids": [
+          "a5d1ae1c-3897-425f-a35a-3cba9c3f01ef",
+          "6448bade-b418-4c4d-96d1-1b1852d62fbe",
+          "ee4aa80f-5d7c-4c0f-87f3-0d25fb8e6815"
+        ],
+        "result_contents": [
+          "David previously worked remotely at a fully distributed startup for two years",
+          "David joined the organization last month as a contract UX researcher",
+          "New attendance policy mandates all contract workers be physically present three days per week"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "target"
+        ],
+        "result_scores": [
+          0.5812574625015259,
+          0.6496761441230774,
+          0.6522505283355713
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.6666666666666666,
+        "mrr": 0.5,
+        "targets_found": 2,
+        "targets_total": 2,
+        "distractors_in_results": 1,
+        "result_ids": [
+          "a5d1ae1c-3897-425f-a35a-3cba9c3f01ef",
+          "6448bade-b418-4c4d-96d1-1b1852d62fbe",
+          "ee4aa80f-5d7c-4c0f-87f3-0d25fb8e6815"
+        ],
+        "result_contents": [
+          "David previously worked remotely at a fully distributed startup for two years",
+          "David joined the organization last month as a contract UX researcher",
+          "New attendance policy mandates all contract workers be physically present three days per week"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "target"
+        ],
+        "result_scores": [
+          0.5812574625015259,
+          0.6496761441230774,
+          0.6522505283355713
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "hop1",
+          "real_id": "ee4aa80f-5d7c-4c0f-87f3-0d25fb8e6815",
+          "content": "New attendance policy mandates all contract workers be physically present three days per week",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "hop2",
+          "real_id": "6448bade-b418-4c4d-96d1-1b1852d62fbe",
+          "content": "David joined the organization last month as a contract UX researcher",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "e63cb785-2aed-4b2a-8e66-404e1c057e49",
+          "content": "Full-time employees are required to work from the office four days per week under the new policy",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "a5d1ae1c-3897-425f-a35a-3cba9c3f01ef",
+          "content": "David previously worked remotely at a fully distributed startup for two years",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "d016b8b9-9b3f-490e-8949-c90c3675a59f",
+          "content": "The UX research team typically collaborates in person during user testing sessions",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "060b2359-da4b-4cfd-a172-d013e0d712e0",
+          "content": "Contract workers at the company are managed through an external staffing agency",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "781ec4f0-a9d9-4e30-a718-2078d110d94f",
+          "content": "David's UX research role involves conducting user interviews and synthesizing findings for product teams",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "a2a06b22-b22f-4235-b1d8-d06e275baf72",
+          "content": "The new attendance policy was communicated to all staff via email and posted on the internal HR portal",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 80.25,
+      "llm_tokens": {
+        "prompt_tokens": 13541,
+        "completion_tokens": 3155,
+        "total_tokens": 16696
+      },
+      "error": null,
+      "notes": "Requires: David = contract worker -> contract worker policy = 3 days. Distractors: wrong policy group (full-time=4 days), David's past (remote work), team norms (not policy)."
+    },
+    {
+      "case_id": "T3-04",
+      "tier": 3,
+      "category": "chain_2hop",
+      "title": "VP -> reports to CRO -> CRO identity",
+      "query": "Who is the VP of Sales' direct supervisor?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.5,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 2,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "4eb25e6c-2152-4938-8873-634b55eeeb72",
+          "2262f94a-4b23-485c-aaaf-29e73f3dd6ec",
+          "8963d2b0-6927-404a-9335-7bdf7b7cd4b9"
+        ],
+        "result_contents": [
+          "The VP of Sales reports directly to the Chief Revenue Officer",
+          "The VP of Sales previously led the regional sales team in the Northeast territory",
+          "The Chief Revenue Officer role was created to unify sales, marketing, and customer success under one leader"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.44431376457214355,
+          0.4854013919830322,
+          0.5494972467422485
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.6666666666666666,
+        "mrr": 1.0,
+        "targets_found": 2,
+        "targets_total": 2,
+        "distractors_in_results": 1,
+        "result_ids": [
+          "4eb25e6c-2152-4938-8873-634b55eeeb72",
+          "2262f94a-4b23-485c-aaaf-29e73f3dd6ec",
+          "dbfff262-aa4c-4bb8-8cf1-df7ff8979b32"
+        ],
+        "result_contents": [
+          "The VP of Sales reports directly to the Chief Revenue Officer",
+          "The VP of Sales previously led the regional sales team in the Northeast territory",
+          "Karen was appointed as the new Chief Revenue Officer in January"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "target"
+        ],
+        "result_scores": [
+          0.44431376457214355,
+          0.4854013919830322,
+          0.4854013919830322
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "hop1",
+          "real_id": "4eb25e6c-2152-4938-8873-634b55eeeb72",
+          "content": "The VP of Sales reports directly to the Chief Revenue Officer",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "hop2",
+          "real_id": "dbfff262-aa4c-4bb8-8cf1-df7ff8979b32",
+          "content": "Karen was appointed as the new Chief Revenue Officer in January",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "2262f94a-4b23-485c-aaaf-29e73f3dd6ec",
+          "content": "The VP of Sales previously led the regional sales team in the Northeast territory",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "ef305f3e-bf8f-4848-8093-3d27f5b23951",
+          "content": "Karen started her career in sales operations before moving into executive leadership",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "aea7065f-2f99-4cc6-91a5-2ade9b8a1594",
+          "content": "The Chief Marketing Officer and Chief Revenue Officer collaborate closely on go-to-market strategy",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "cba01a3b-a6ba-4ab8-8893-0cc2a9ffb67d",
+          "content": "Karen oversees a revenue organization of over two hundred sales and customer success professionals",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "8963d2b0-6927-404a-9335-7bdf7b7cd4b9",
+          "content": "The Chief Revenue Officer role was created to unify sales, marketing, and customer success under one leader",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "326abc53-a96f-47ea-9c0e-8ec5f64b6346",
+          "content": "The VP of Sales exceeded annual quota by twenty-two percent in the previous fiscal year",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 77.68,
+      "llm_tokens": {
+        "prompt_tokens": 13782,
+        "completion_tokens": 3144,
+        "total_tokens": 16926
+      },
+      "error": null,
+      "notes": "'Direct supervisor' not 'reports to'. Requires: VP Sales -> CRO -> Karen. Distractors: VP's past role, Karen's past role, CRO's peer relationships."
+    },
+    {
+      "case_id": "T3-05",
+      "tier": 3,
+      "category": "chain_2hop",
+      "title": "Budget owner -> team -> headcount freeze",
+      "query": "Can the marketing group bring on additional staff right now?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 2,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "03a4bacf-9ca0-47cf-83ae-206039d7e503",
+          "cbae0a64-3513-4e96-808f-e0a219a6ac57",
+          "6942bf3c-bf27-4b80-ad0b-f164da447831"
+        ],
+        "result_contents": [
+          "The marketing department's current headcount stands at thirty-two full-time employees",
+          "The marketing department is actively recruiting for contractors to support the product launch campaign",
+          "Marketing headcount grew by twelve percent last fiscal year to support expansion goals"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6112148761749268,
+          0.618004560470581,
+          0.6837747097015381
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 2,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "03a4bacf-9ca0-47cf-83ae-206039d7e503",
+          "81b2160d-feb5-4924-9213-f28f2ede1f88",
+          "cbae0a64-3513-4e96-808f-e0a219a6ac57"
+        ],
+        "result_contents": [
+          "The marketing department's current headcount stands at thirty-two full-time employees",
+          "The engineering department received approval for three additional hires in specialized roles",
+          "The marketing department is actively recruiting for contractors to support the product launch campaign"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.6112148761749268,
+          0.6112148761749268,
+          0.618004560470581
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "hop1",
+          "real_id": "37d32c28-eed9-4394-aefa-a5e50284725a",
+          "content": "The marketing department's annual spend is controlled by the CFO's office",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "hop2",
+          "real_id": "35442c1a-1b1b-4132-92f2-2291c21a4756",
+          "content": "The CFO's office has frozen all new hiring requisitions until further notice",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "cbae0a64-3513-4e96-808f-e0a219a6ac57",
+          "content": "The marketing department is actively recruiting for contractors to support the product launch campaign",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "6942bf3c-bf27-4b80-ad0b-f164da447831",
+          "content": "Marketing headcount grew by twelve percent last fiscal year to support expansion goals",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "81b2160d-feb5-4924-9213-f28f2ede1f88",
+          "content": "The engineering department received approval for three additional hires in specialized roles",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "e53c85fd-c21b-459e-8363-9509aa6b3a23",
+          "content": "The CFO's office oversees procurement, financial planning, and expense management across all departments",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "03a4bacf-9ca0-47cf-83ae-206039d7e503",
+          "content": "The marketing department's current headcount stands at thirty-two full-time employees",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "ca2604d7-f5e4-4b23-8f13-c0bd77c9d201",
+          "content": "New hiring across the company requires CFO approval for all roles above a certain salary threshold",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 77.88,
+      "llm_tokens": {
+        "prompt_tokens": 13221,
+        "completion_tokens": 2701,
+        "total_tokens": 15922
+      },
+      "error": null,
+      "notes": "'Bring on additional staff' not 'hiring requisitions'. Requires: marketing -> CFO controls budget -> CFO froze hiring -> no. Distractors: contractor exception, past growth, different department approval."
+    },
+    {
+      "case_id": "T3-06",
+      "tier": 3,
+      "category": "paraphrase",
+      "title": "Revenue beat expectations (full vocabulary swap)",
+      "query": "Did the company's three-month income surpass what the financial forecasters predicted?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "de1c0e6e-dea7-4a89-90f1-8280c0cee142",
+          "33279562-165d-4c20-8674-f7553935561d",
+          "f37fbb0b-411e-4099-8430-afd8a47caa91"
+        ],
+        "result_contents": [
+          "Quarterly revenue exceeded Wall Street analyst consensus by a significant margin",
+          "The finance team issued a press release highlighting key growth drivers after the earnings announcement",
+          "Market analysts anticipate continued strong performance in the upcoming fiscal quarter"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5816100239753723,
+          0.5922367572784424,
+          0.627833366394043
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "de1c0e6e-dea7-4a89-90f1-8280c0cee142",
+          "33279562-165d-4c20-8674-f7553935561d",
+          "6d56aecf-3139-4baf-b79c-100836849f15"
+        ],
+        "result_contents": [
+          "Quarterly revenue exceeded Wall Street analyst consensus by a significant margin",
+          "The finance team issued a press release highlighting key growth drivers after the earnings announcement",
+          "Annual revenue growth has remained steady at approximately twelve percent year over year"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5816100239753723,
+          0.5922367572784424,
+          0.5922367572784424
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "de1c0e6e-dea7-4a89-90f1-8280c0cee142",
+          "content": "Quarterly revenue exceeded Wall Street analyst consensus by a significant margin",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "c6d40e17-8700-42dc-8856-9ba17b7b9c11",
+          "content": "Quarterly expenses came in slightly below the finance team's initial budget projections",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "6d56aecf-3139-4baf-b79c-100836849f15",
+          "content": "Annual revenue growth has remained steady at approximately twelve percent year over year",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "f37fbb0b-411e-4099-8430-afd8a47caa91",
+          "content": "Market analysts anticipate continued strong performance in the upcoming fiscal quarter",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "33279562-165d-4c20-8674-f7553935561d",
+          "content": "The finance team issued a press release highlighting key growth drivers after the earnings announcement",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "e270dc6d-6b4b-4206-b8f6-0fe292d77eb2",
+          "content": "Analyst consensus for next quarter has been revised upward following the strong results",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "81cc05e4-f982-479d-a3f2-515643882f86",
+          "content": "Revenue outperformance was driven primarily by the enterprise segment exceeding its quarterly target",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 76.78,
+      "llm_tokens": {
+        "prompt_tokens": 12706,
+        "completion_tokens": 2963,
+        "total_tokens": 15669
+      },
+      "error": null,
+      "notes": "Every content word is swapped: 'quarterly'->'three-month', 'revenue'->'income', 'exceeded'->'surpass', 'analysts'->'forecasters', 'consensus'->'predicted'. Distractors: expenses vs revenue, annual vs quarterly, future predictions vs past results."
+    },
+    {
+      "case_id": "T3-07",
+      "tier": 3,
+      "category": "paraphrase",
+      "title": "CTO advocates microservices (full vocabulary swap)",
+      "query": "Who championed splitting the monolith into smaller independent modules at the yearly strategy offsite?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "57ff7717-8922-4331-9b8a-3d88b93f41ef",
+          "64165c47-8305-4c6c-9607-20976f9a0d36",
+          "f2b10916-7406-4e1c-9eeb-66743abedb2c"
+        ],
+        "result_contents": [
+          "The VP of Engineering proposed maintaining the existing monolithic application for stability reasons",
+          "The annual planning session covered topics including cloud migration and API strategy",
+          "The CTO outlined a three-year technology modernization roadmap at the annual planning session"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.8390807509422302,
+          0.8575077056884766,
+          0.868911862373352
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "57ff7717-8922-4331-9b8a-3d88b93f41ef",
+          "9feb377d-3aa1-4976-ad32-c6aa8a0713a9",
+          "64165c47-8305-4c6c-9607-20976f9a0d36"
+        ],
+        "result_contents": [
+          "The VP of Engineering proposed maintaining the existing monolithic application for stability reasons",
+          "The CTO advocated for adopting a microservices architecture during the annual planning session",
+          "The annual planning session covered topics including cloud migration and API strategy"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.8390807509422302,
+          0.8390807509422302,
+          0.8575077056884766
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "9feb377d-3aa1-4976-ad32-c6aa8a0713a9",
+          "content": "The CTO advocated for adopting a microservices architecture during the annual planning session",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "57ff7717-8922-4331-9b8a-3d88b93f41ef",
+          "content": "The VP of Engineering proposed maintaining the existing monolithic application for stability reasons",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "02f51ac0-8840-44dc-aae3-01ac1fdc43aa",
+          "content": "Microservices migration discussions have been ongoing for several months across multiple teams",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "64165c47-8305-4c6c-9607-20976f9a0d36",
+          "content": "The annual planning session covered topics including cloud migration and API strategy",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "f2b10916-7406-4e1c-9eeb-66743abedb2c",
+          "content": "The CTO outlined a three-year technology modernization roadmap at the annual planning session",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "72223db3-f6e6-4bbb-a93c-18334aa8a90b",
+          "content": "Microservices architecture has been adopted by several peer companies in the industry",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "776c56d8-f86e-4395-af74-dc1c5fe8b50d",
+          "content": "The VP of Engineering and CTO jointly presented the technical strategy to the board",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 70.29,
+      "llm_tokens": {
+        "prompt_tokens": 12174,
+        "completion_tokens": 2363,
+        "total_tokens": 14537
+      },
+      "error": null,
+      "notes": "'Championed' not 'advocated', 'splitting monolith into modules' not 'microservices architecture', 'yearly strategy offsite' not 'annual planning session'. Distractors: opposing view (VP), generic discussion (no advocate), different topics."
+    },
+    {
+      "case_id": "T3-08",
+      "tier": 3,
+      "category": "paraphrase",
+      "title": "Customer churn after price change (full vocabulary swap)",
+      "query": "How many subscribers cancelled after we revised our fee structure?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.3333333333333333,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "20ff6a15-3281-4c8c-92d9-3dfc42a00dff",
+          "747eeba0-6fe4-45af-a607-776173519fd6",
+          "eb79862f-6fc7-4936-8b06-33ddb680d177"
+        ],
+        "result_contents": [
+          "The pricing committee is reviewing additional fee structure modifications for next quarter",
+          "The customer success team launched a retention campaign following early signals of increased cancellations",
+          "Customer attrition climbed to eight percent following the latest pricing adjustment"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "target"
+        ],
+        "result_scores": [
+          0.5439450144767761,
+          0.5471592545509338,
+          0.6238496899604797
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "20ff6a15-3281-4c8c-92d9-3dfc42a00dff",
+          "246e645e-9616-4b84-9fa6-28eb98f25e0e",
+          "747eeba0-6fe4-45af-a607-776173519fd6"
+        ],
+        "result_contents": [
+          "The pricing committee is reviewing additional fee structure modifications for next quarter",
+          "New subscriber acquisition increased by twelve percent during the promotional campaign period",
+          "The customer success team launched a retention campaign following early signals of increased cancellations"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5439450144767761,
+          0.5439450144767761,
+          0.5471592545509338
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "eb79862f-6fc7-4936-8b06-33ddb680d177",
+          "content": "Customer attrition climbed to eight percent following the latest pricing adjustment",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "246e645e-9616-4b84-9fa6-28eb98f25e0e",
+          "content": "New subscriber acquisition increased by twelve percent during the promotional campaign period",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "20ff6a15-3281-4c8c-92d9-3dfc42a00dff",
+          "content": "The pricing committee is reviewing additional fee structure modifications for next quarter",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "5cf3ea2e-f278-4d89-84a5-fd37ad900f20",
+          "content": "Customer satisfaction scores remained stable despite concerns about competitive pricing pressure",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "19931ae4-048f-41cf-8e2e-eac9d6866848",
+          "content": "The pricing adjustment was the first increase in three years and averaged fifteen percent across all tiers",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "fde524e5-12bb-4111-bf8d-d57a1d4e1650",
+          "content": "Customer attrition rates above five percent typically trigger a review by customer success leadership",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "747eeba0-6fe4-45af-a607-776173519fd6",
+          "content": "The customer success team launched a retention campaign following early signals of increased cancellations",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 71.75,
+      "llm_tokens": {
+        "prompt_tokens": 12236,
+        "completion_tokens": 2697,
+        "total_tokens": 14933
+      },
+      "error": null,
+      "notes": "'Subscribers cancelled' not 'customer attrition', 'revised fee structure' not 'pricing adjustment'. Even 'eight percent' vs 'how many' tests numeric comprehension. Distractors: acquisition vs attrition, future changes vs past results, satisfaction vs churn."
+    },
+    {
+      "case_id": "T3-09",
+      "tier": 3,
+      "category": "paraphrase",
+      "title": "Board approves acquisition (full vocabulary swap)",
+      "query": "Did the governing body consent to acquiring the Nordic financial technology venture?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "946ea766-b870-4453-bdd6-2efed9c9ac0f",
+          "b4504f5a-48d5-4482-8daf-2bcae98d58e7",
+          "d4974dd5-0fef-48f3-8396-5736294d5f2a"
+        ],
+        "result_contents": [
+          "The board of directors unanimously greenlit the purchase of a Scandinavian fintech startup",
+          "The Scandinavian fintech startup had processed over two billion euros in transactions in the previous year",
+          "The fintech sector in Scandinavia has attracted significant venture capital investment recently"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.3952801823616028,
+          0.4252125024795532,
+          0.434217631816864
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "946ea766-b870-4453-bdd6-2efed9c9ac0f",
+          "b4504f5a-48d5-4482-8daf-2bcae98d58e7",
+          "d4974dd5-0fef-48f3-8396-5736294d5f2a"
+        ],
+        "result_contents": [
+          "The board of directors unanimously greenlit the purchase of a Scandinavian fintech startup",
+          "The Scandinavian fintech startup had processed over two billion euros in transactions in the previous year",
+          "The fintech sector in Scandinavia has attracted significant venture capital investment recently"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.3952801823616028,
+          0.4252125024795532,
+          0.434217631816864
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "946ea766-b870-4453-bdd6-2efed9c9ac0f",
+          "content": "The board of directors unanimously greenlit the purchase of a Scandinavian fintech startup",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "8d984bb3-9689-4f7f-8fc4-c46519ac530b",
+          "content": "The executive team is conducting due diligence on several potential acquisition targets in Europe",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "ed4d09e6-4fd5-43a8-8df5-6e7cec9b86a3",
+          "content": "Board meetings in previous quarters focused on organic growth rather than strategic acquisitions",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "d4974dd5-0fef-48f3-8396-5736294d5f2a",
+          "content": "The fintech sector in Scandinavia has attracted significant venture capital investment recently",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "b4504f5a-48d5-4482-8daf-2bcae98d58e7",
+          "content": "The Scandinavian fintech startup had processed over two billion euros in transactions in the previous year",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "721a7663-26fa-4699-ab0f-a0b8647bb711",
+          "content": "The acquisition is expected to close within ninety days pending regulatory approval",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "cda53a27-00e1-4dc3-ad15-9c7b27681b22",
+          "content": "Board approval required a supermajority vote under the company's acquisition governance policy",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 75.17,
+      "llm_tokens": {
+        "prompt_tokens": 12732,
+        "completion_tokens": 3118,
+        "total_tokens": 15850
+      },
+      "error": null,
+      "notes": "'Governing body' not 'board of directors', 'consent' not 'greenlit', 'acquiring' not 'purchase', 'Nordic' not 'Scandinavian', 'venture' not 'startup'. Distractors: still evaluating (not approved), past strategy (organic not M&A), sector investment (not acquisition)."
+    },
+    {
+      "case_id": "T3-10",
+      "tier": 3,
+      "category": "paraphrase",
+      "title": "Engineer resignation (full vocabulary swap)",
+      "query": "Which senior server-side developer decided to leave because of exhaustion and personal life conflicts?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "995b27bc-c831-4afc-8a23-49ec95992181",
+          "e6aa3c87-a89b-4f1e-9461-23cfed30ad96",
+          "7b1304de-8938-437a-9e54-0c1e00a4bd05"
+        ],
+        "result_contents": [
+          "The principal backend engineer submitted her resignation citing burnout and work-life imbalance",
+          "A senior frontend developer was promoted to principal engineer last quarter",
+          "Several junior developers expressed concerns about workload balance during the recent employee survey"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5345636010169983,
+          0.6379074454307556,
+          0.6984564065933228
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 1.0,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "995b27bc-c831-4afc-8a23-49ec95992181",
+          "e6aa3c87-a89b-4f1e-9461-23cfed30ad96",
+          "7b1304de-8938-437a-9e54-0c1e00a4bd05"
+        ],
+        "result_contents": [
+          "The principal backend engineer submitted her resignation citing burnout and work-life imbalance",
+          "A senior frontend developer was promoted to principal engineer last quarter",
+          "Several junior developers expressed concerns about workload balance during the recent employee survey"
+        ],
+        "result_roles": [
+          "target",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5345636010169983,
+          0.6379074454307556,
+          0.6984564065933228
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "995b27bc-c831-4afc-8a23-49ec95992181",
+          "content": "The principal backend engineer submitted her resignation citing burnout and work-life imbalance",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "7b1304de-8938-437a-9e54-0c1e00a4bd05",
+          "content": "Several junior developers expressed concerns about workload balance during the recent employee survey",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "2bd54d3b-aa40-4438-bc6a-32892fe0a154",
+          "content": "The backend engineering team is actively hiring to expand capacity for upcoming projects",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "e6aa3c87-a89b-4f1e-9461-23cfed30ad96",
+          "content": "A senior frontend developer was promoted to principal engineer last quarter",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "1e875713-844c-4947-89ca-b452c1a8eee4",
+          "content": "The principal backend engineer was the technical lead on the company payment processing infrastructure",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "0c811091-c805-440d-a5b2-a2ccc28cf1f0",
+          "content": "The backend team operates an on-call rotation that has been cited as a source of significant stress",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "8c3e7991-49b9-485e-9d4d-ceb78a4f6099",
+          "content": "The company has been experiencing above-average attrition in its senior engineering ranks this year",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 66.87,
+      "llm_tokens": {
+        "prompt_tokens": 12110,
+        "completion_tokens": 2391,
+        "total_tokens": 14501
+      },
+      "error": null,
+      "notes": "'Senior server-side developer' not 'principal backend engineer', 'decided to leave' not 'submitted resignation', 'exhaustion' not 'burnout'. Distractors: junior developers (not senior), hiring (not resignation), frontend promotion (not backend resignation)."
+    },
+    {
+      "case_id": "T3-11",
+      "tier": 3,
+      "category": "world_knowledge",
+      "title": "Elon -> Tesla implicit link",
+      "query": "How will the electric vehicle manufacturer's layoffs affect production in Texas?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 2,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "70b2d47b-9375-4273-afbd-48690fca8fbb",
+          "b59ef52a-cd66-4449-af08-920592009e9e",
+          "742775f0-14f6-4153-bd7c-06f6124f6491"
+        ],
+        "result_contents": [
+          "Electric vehicle sales in Texas increased by twenty percent compared to last year",
+          "Tesla's workforce reductions are expected to affect manufacturing, software, and sales divisions",
+          "The Austin gigafactory produces both the Model Y and the Cybertruck for North American markets"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.47901564836502075,
+          0.4857741594314575,
+          0.5605545043945312
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 2,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "70b2d47b-9375-4273-afbd-48690fca8fbb",
+          "4f821894-b31c-44c2-abdb-63a9fe23c08f",
+          "b59ef52a-cd66-4449-af08-920592009e9e"
+        ],
+        "result_contents": [
+          "Electric vehicle sales in Texas increased by twenty percent compared to last year",
+          "The Austin facility recently expanded its solar panel installation capacity",
+          "Tesla's workforce reductions are expected to affect manufacturing, software, and sales divisions"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.47901564836502075,
+          0.47901564836502075,
+          0.4857741594314575
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "hop1",
+          "real_id": "ea42035c-baca-4e6e-ba2c-5bd57783c5af",
+          "content": "Elon announced a ten percent workforce reduction across all operating units",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "hop2",
+          "real_id": "c87b1b09-5d92-4793-bf9d-a2cc48a3445b",
+          "content": "The Austin gigafactory will bear the brunt of the upcoming headcount changes",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "87fbafe9-ca7d-4dbb-ab61-5cd1522582ce",
+          "content": "Elon's recent social media posts sparked controversy about free speech policies",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "4f821894-b31c-44c2-abdb-63a9fe23c08f",
+          "content": "The Austin facility recently expanded its solar panel installation capacity",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "70b2d47b-9375-4273-afbd-48690fca8fbb",
+          "content": "Electric vehicle sales in Texas increased by twenty percent compared to last year",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "b59ef52a-cd66-4449-af08-920592009e9e",
+          "content": "Tesla's workforce reductions are expected to affect manufacturing, software, and sales divisions",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "4e3cb2ae-dd09-426a-b681-51f77eb3caaa",
+          "content": "Elon's companies collectively employ over one hundred thousand people worldwide",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "742775f0-14f6-4153-bd7c-06f6124f6491",
+          "content": "The Austin gigafactory produces both the Model Y and the Cybertruck for North American markets",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 78.67,
+      "llm_tokens": {
+        "prompt_tokens": 13792,
+        "completion_tokens": 3130,
+        "total_tokens": 16922
+      },
+      "error": null,
+      "notes": "Requires world knowledge: Elon = Elon Musk = Tesla, Austin gigafactory = Tesla + Texas, workforce reduction = layoffs. Distractors: different Elon topic (social media), Austin facility different context (solar), EV sales (not production/layoffs)."
+    },
+    {
+      "case_id": "T3-12",
+      "tier": 3,
+      "category": "world_knowledge",
+      "title": "Federal Reserve -> central bank implicit link",
+      "query": "What did the head of America's central banking system discuss at the Wyoming economics gathering?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "8a1e6e16-5c69-4e25-a3c4-2426946b96d5",
+          "748fb56b-b2a9-43fd-940f-ee2ab174eec4",
+          "5a71a83b-11cf-46fc-acaf-3e064a59a022"
+        ],
+        "result_contents": [
+          "The Jackson Hole symposium is hosted annually by the Federal Reserve Bank of Kansas City in Wyoming",
+          "The Federal Reserve is the central banking system of the United States, established by Congress in 1913",
+          "The European Central Bank president discussed inflation concerns at the Frankfurt banking conference"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.4991958737373352,
+          0.5747230052947998,
+          0.6677584648132324
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.3333333333333333,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "8a1e6e16-5c69-4e25-a3c4-2426946b96d5",
+          "5bb91b0f-aaac-4404-b6c0-1b09241ec6ec",
+          "c0b00075-eeb9-4441-9163-ab7b6899ea9d"
+        ],
+        "result_contents": [
+          "The Jackson Hole symposium is hosted annually by the Federal Reserve Bank of Kansas City in Wyoming",
+          "Federal Reserve regional governors meet quarterly to coordinate monetary policy implementation",
+          "The Fed Chair testified about potential rate trajectory shifts at the Jackson Hole symposium"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "target"
+        ],
+        "result_scores": [
+          0.4991958737373352,
+          0.4991958737373352,
+          0.4991958737373352
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "c0b00075-eeb9-4441-9163-ab7b6899ea9d",
+          "content": "The Fed Chair testified about potential rate trajectory shifts at the Jackson Hole symposium",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "5a71a83b-11cf-46fc-acaf-3e064a59a022",
+          "content": "The European Central Bank president discussed inflation concerns at the Frankfurt banking conference",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "9aeeaa63-0d44-4f67-ae8a-12e8c19502d3",
+          "content": "Jackson Hole Mountain Resort attracts thousands of skiers annually during winter season",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "5bb91b0f-aaac-4404-b6c0-1b09241ec6ec",
+          "content": "Federal Reserve regional governors meet quarterly to coordinate monetary policy implementation",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "8a1e6e16-5c69-4e25-a3c4-2426946b96d5",
+          "content": "The Jackson Hole symposium is hosted annually by the Federal Reserve Bank of Kansas City in Wyoming",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "a50f365c-8a66-4d08-9745-96444fa53dad",
+          "content": "The Fed Chair's remarks on interest rate policy are among the most market-moving communications in finance",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "748fb56b-b2a9-43fd-940f-ee2ab174eec4",
+          "content": "The Federal Reserve is the central banking system of the United States, established by Congress in 1913",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 70.55,
+      "llm_tokens": {
+        "prompt_tokens": 12766,
+        "completion_tokens": 2541,
+        "total_tokens": 15307
+      },
+      "error": null,
+      "notes": "'Head of America's central banking system' not 'Fed Chair', 'Wyoming economics gathering' not 'Jackson Hole symposium'. Requires knowing Jackson Hole is in Wyoming. Distractors: different central bank (ECB), Jackson Hole tourism (not symposium), Fed meetings (not Jackson Hole)."
+    },
+    {
+      "case_id": "T3-13",
+      "tier": 3,
+      "category": "world_knowledge",
+      "title": "COP summit -> UN climate conference",
+      "query": "What temperature goal did delegates commit to at the annual United Nations environmental negotiations?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "7ac4b4ec-6966-40db-9bbc-56351b576033",
+          "35f2cfda-5fa9-4ec5-909e-e6530f5f8eb8",
+          "85628ca8-411a-4aa9-879c-fc1157f3f400"
+        ],
+        "result_contents": [
+          "Delegates at COP negotiate binding and non-binding commitments on emissions, finance, and adaptation",
+          "United Nations sustainability goals include emissions reductions across multiple sectors by 2030",
+          "The UNFCCC secretariat coordinates the annual COP process and tracks member state progress on climate commitments"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.4861311912536621,
+          0.5265940427780151,
+          0.5323227643966675
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "7ac4b4ec-6966-40db-9bbc-56351b576033",
+          "26e6c476-834e-4144-90f7-0270e2b56c90",
+          "e01c792c-bb88-4fc1-a9d2-b2a5de3d0af5"
+        ],
+        "result_contents": [
+          "Delegates at COP negotiate binding and non-binding commitments on emissions, finance, and adaptation",
+          "COP stands for Conference of the Parties and is the primary decision-making body of the UNFCCC",
+          "The Paris Agreement initially established the two degree warming limit with aspirations for 1.5 degrees"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.4861311912536621,
+          0.4861311912536621,
+          0.4861311912536621
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "target",
+          "real_id": "961ba746-c36d-4024-90e5-37af2863fe7c",
+          "content": "The 1.5 degree Celsius warming threshold was reaffirmed at the latest COP summit",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "e01c792c-bb88-4fc1-a9d2-b2a5de3d0af5",
+          "content": "The Paris Agreement initially established the two degree warming limit with aspirations for 1.5 degrees",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "35f2cfda-5fa9-4ec5-909e-e6530f5f8eb8",
+          "content": "United Nations sustainability goals include emissions reductions across multiple sectors by 2030",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "0434fcfa-ed7c-4418-b4ad-ee2aa327e957",
+          "content": "Climate scientists warn that current warming trends exceed historical temperature baselines",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "26e6c476-834e-4144-90f7-0270e2b56c90",
+          "content": "COP stands for Conference of the Parties and is the primary decision-making body of the UNFCCC",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "7ac4b4ec-6966-40db-9bbc-56351b576033",
+          "content": "Delegates at COP negotiate binding and non-binding commitments on emissions, finance, and adaptation",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "85628ca8-411a-4aa9-879c-fc1157f3f400",
+          "content": "The UNFCCC secretariat coordinates the annual COP process and tracks member state progress on climate commitments",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 68.07,
+      "llm_tokens": {
+        "prompt_tokens": 12593,
+        "completion_tokens": 2474,
+        "total_tokens": 15067
+      },
+      "error": null,
+      "notes": "'United Nations environmental negotiations' not 'COP summit'. Requires knowing COP = UNFCCC Conference of the Parties. Distractors: past agreement (Paris), broader UN goals (not temperature specific), scientific warnings (not policy commitment)."
+    },
+    {
+      "case_id": "T3-14",
+      "tier": 3,
+      "category": "negation",
+      "title": "Python: suitable vs unsuitable domains",
+      "query": "For which types of software projects is Python considered inappropriate?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "40fec55c-e997-4954-bacd-1a38530a86a3",
+          "ec40a78f-da99-46f1-aa25-1602d3104dcb",
+          "419d45da-edd0-467f-a78c-9897d75793a7"
+        ],
+        "result_contents": [
+          "Python's extensive library ecosystem makes it ideal for web development and automation tasks",
+          "Python's performance limitations make it unsuitable as the primary language for high-throughput trading systems",
+          "Python has become the dominant language for scientific computing and numerical analysis"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.44594985246658325,
+          0.48484861850738525,
+          0.48900318145751953
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "40fec55c-e997-4954-bacd-1a38530a86a3",
+          "28f0b18d-43b5-445f-9e90-c4ed7daf8d4f",
+          "ec40a78f-da99-46f1-aa25-1602d3104dcb"
+        ],
+        "result_contents": [
+          "Python's extensive library ecosystem makes it ideal for web development and automation tasks",
+          "Python excels at rapid prototyping, data analysis, and machine learning workloads",
+          "Python's performance limitations make it unsuitable as the primary language for high-throughput trading systems"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.44594985246658325,
+          0.44594985246658325,
+          0.48484861850738525
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "28f0b18d-43b5-445f-9e90-c4ed7daf8d4f",
+          "content": "Python excels at rapid prototyping, data analysis, and machine learning workloads",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "40fec55c-e997-4954-bacd-1a38530a86a3",
+          "content": "Python's extensive library ecosystem makes it ideal for web development and automation tasks",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "419d45da-edd0-467f-a78c-9897d75793a7",
+          "content": "Python has become the dominant language for scientific computing and numerical analysis",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "target",
+          "real_id": "27414142-3436-4ec5-94e9-611261ad2328",
+          "content": "Python is generally a poor choice for latency-sensitive mobile applications and GPU-bound game engines",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "a0032e0f-6f16-4ed6-8392-bdeeada368cb",
+          "content": "Real-time embedded systems and firmware development typically require C or C++ rather than Python",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "ec40a78f-da99-46f1-aa25-1602d3104dcb",
+          "content": "Python's performance limitations make it unsuitable as the primary language for high-throughput trading systems",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "5f39b0f4-ba46-45f0-81d1-cc58a038a522",
+          "content": "Operating system kernels and device drivers cannot be written in Python due to memory management constraints",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 71.5,
+      "llm_tokens": {
+        "prompt_tokens": 12395,
+        "completion_tokens": 2710,
+        "total_tokens": 15105
+      },
+      "error": null,
+      "notes": "All memories discuss Python's applicability to different domains. Query asks for NEGATIVE cases ('inappropriate'). System must select the 'poor choice' memory among three positive statements."
+    },
+    {
+      "case_id": "T3-15",
+      "tier": 3,
+      "category": "negation",
+      "title": "Microservices: benefits vs drawbacks",
+      "query": "What are the downsides of breaking a system into many small services?",
+      "passed_search": false,
+      "passed_agentic": false,
+      "search_metrics": {
+        "recall": 1.0,
+        "precision": 0.3333333333333333,
+        "mrr": 0.5,
+        "targets_found": 1,
+        "targets_total": 1,
+        "distractors_in_results": 2,
+        "result_ids": [
+          "b1fd71e4-4d08-4bd5-8a3a-b5e5776896a2",
+          "b47920ff-b62e-4b5e-aecf-96a3da837cc7",
+          "10e01a98-b636-4542-bbd6-e1af30f2ecd5"
+        ],
+        "result_contents": [
+          "Microservices improve fault isolation so failures in one component don't bring down the entire system",
+          "Microservices introduce significant operational overhead including distributed tracing, service mesh complexity, and cas",
+          "Microservices increase deployment complexity as each service requires its own CI/CD pipeline and versioning strategy"
+        ],
+        "result_roles": [
+          "distractor",
+          "target",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5744761228561401,
+          0.5867623090744019,
+          0.6732093691825867
+        ]
+      },
+      "agentic_metrics": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "targets_found": 0,
+        "targets_total": 1,
+        "distractors_in_results": 3,
+        "result_ids": [
+          "b1fd71e4-4d08-4bd5-8a3a-b5e5776896a2",
+          "eef0372e-0f3c-4c21-a850-16c60eff4687",
+          "d936cb06-63c7-4cd6-b0b7-d236f525ad7d"
+        ],
+        "result_contents": [
+          "Microservices improve fault isolation so failures in one component don't bring down the entire system",
+          "Microservices architecture allows different teams to choose optimal technology stacks for their specific needs",
+          "Microservices enable independent scaling and faster deployment cycles for large teams"
+        ],
+        "result_roles": [
+          "distractor",
+          "distractor",
+          "distractor"
+        ],
+        "result_scores": [
+          0.5744761228561401,
+          0.5744761228561401,
+          0.5744761228561401
+        ]
+      },
+      "memories": [
+        {
+          "fixture_id": "distractor_1",
+          "real_id": "d936cb06-63c7-4cd6-b0b7-d236f525ad7d",
+          "content": "Microservices enable independent scaling and faster deployment cycles for large teams",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_2",
+          "real_id": "eef0372e-0f3c-4c21-a850-16c60eff4687",
+          "content": "Microservices architecture allows different teams to choose optimal technology stacks for their specific needs",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_3",
+          "real_id": "b1fd71e4-4d08-4bd5-8a3a-b5e5776896a2",
+          "content": "Microservices improve fault isolation so failures in one component don't bring down the entire system",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "target",
+          "real_id": "b47920ff-b62e-4b5e-aecf-96a3da837cc7",
+          "content": "Microservices introduce significant operational overhead including distributed tracing, service mesh complexity, and cascading failure risks",
+          "role": "target",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_4",
+          "real_id": "9644d3bb-9896-4d60-acbc-15454bc13427",
+          "content": "Teams adopting microservices must invest heavily in observability tooling including logging, tracing, and alerting",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_5",
+          "real_id": "10e01a98-b636-4542-bbd6-e1af30f2ecd5",
+          "content": "Microservices increase deployment complexity as each service requires its own CI/CD pipeline and versioning strategy",
+          "role": "distractor",
+          "timestamp": ""
+        },
+        {
+          "fixture_id": "distractor_6",
+          "real_id": "4624ed4b-3587-4182-bd07-762540462696",
+          "content": "Distributed systems introduce network latency and partial failure modes absent in monolithic architectures",
+          "role": "distractor",
+          "timestamp": ""
+        }
+      ],
+      "duration_seconds": 77.28,
+      "llm_tokens": {
+        "prompt_tokens": 13075,
+        "completion_tokens": 3090,
+        "total_tokens": 16165
+      },
+      "error": null,
+      "notes": "'Downsides' targets the negative memory. All highly relevant to 'microservices'. System must distinguish the negative statement among three positive benefits. Note distractor_3 mentions 'failures' but in a positive framing (fault isolation)."
+    }
+  ]
+}
