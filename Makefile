@@ -26,6 +26,7 @@ patch:
 	@cd A-mem-sys && git apply --whitespace=fix ../patches/deepseek-compat.patch
 	@cd A-mem-sys && git apply --whitespace=fix ../patches/evolution-logging.patch
 	@cd A-mem-sys && git apply --whitespace=fix ../patches/fix-links-deserialization.patch
+	@cd A-mem-sys && git apply --whitespace=fix ../patches/fix-agentic-neighbor-ranking.patch
 	@echo "All patches applied."
 
 .PHONY: run stop logs status patch

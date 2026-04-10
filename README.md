@@ -178,6 +178,7 @@ Patches in `patches/` are applied to the A-mem-sys submodule and tracked separat
 | `deepseek-compat.patch` | Adds token usage tracking, DeepSeek controller, OpenRouter support |
 | `evolution-logging.patch` | Logs `should_evolve` decisions during memory insertion (debugging) |
 | `fix-links-deserialization.patch` | Fixes ChromaDB JSON string deserialization for memory links in `search_agentic()` |
+| `fix-agentic-neighbor-ranking.patch` | Fixes `search_agentic()` truncating neighbors before returning — now sorts all candidates by score and returns top-k |
 
 To apply all patches:
 ```bash
@@ -186,6 +187,7 @@ git apply ../patches/deepseek-compat.patch
 # Optional debugging patches:
 git apply ../patches/evolution-logging.patch
 git apply ../patches/fix-links-deserialization.patch
+git apply ../patches/fix-agentic-neighbor-ranking.patch
 cd ..
 ```
 

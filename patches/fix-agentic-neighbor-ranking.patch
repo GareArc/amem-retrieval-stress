@@ -1,0 +1,17 @@
+--- a/agentic_memory/memory_system.py
++++ b/agentic_memory/memory_system.py
+@@ -612,11 +616,13 @@ class AgenticMemorySystem:
+                                 'tags': neighbor.tags,
+                                 'timestamp': neighbor.timestamp,
+                                 'category': neighbor.category,
+-                                'is_neighbor': True
++                                'is_neighbor': True,
++                                'score': memory.get('score', 1.0)
+                             })
+                             seen_ids.add(link_id)
+                             neighbor_count += 1
+             
++            memories.sort(key=lambda m: m.get('score', 1.0))
+             return memories[:k]
+         except Exception as e:
+             logger.error(f"Error in search_agentic: {str(e)}")
